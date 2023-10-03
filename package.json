@@ -9,19 +9,26 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fancyapps/ui": "^5.0.22",
+    "multi-range-slider-react": "^2.0.5",
+    "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "next": "latest"
+    "react-icons": "^4.11.0",
+    "react-intersection-observer": "^9.5.2",
+    "react-web-share": "^2.0.2",
+    "styled-components": "^6.0.8",
+    "swiper": "^10.3.0"
   },
   "devDependencies": {
-    "typescript": "latest",
-    "@types/react": "latest",
     "@types/node": "latest",
+    "@types/react": "latest",
     "@types/react-dom": "latest",
     "autoprefixer": "latest",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
     "postcss": "latest",
     "tailwindcss": "latest",
-    "eslint": "latest",
-    "eslint-config-next": "latest"
+    "typescript": "latest"
   }
 }

@@ -1,0 +1,20 @@
+:root {
+    --color-red-primary: #B81733;
+    --color-red-secondary: #D73955;
+    --color-grey-100: #1C1A19;
+    --color-grey-80: #707070;
+    --color-grey-60: #9D9EA0;
+    --color-grey-40: #D2D1D1;
+    --color-grey-0: #FFFFFF;
+
+
+    --h1-text-size: 56px;
+    --h2-text-size: 32px;
+    --h3-text-size: 22px;
+    --h4-text-size: 16px;
+    --h5-text-size: 14px;
+    --p-desktop-text-size: 16px;
+    --p-mobile-text-size: 14px;
+    --button-size: 16px;
+    --overline: 11px;
+  }
