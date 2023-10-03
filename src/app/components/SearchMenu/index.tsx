@@ -128,7 +128,7 @@ const BarContent = styled.div`
   top:57px;
 
   @media(max-width:768px){
-    top:72px;
+    top:57px;
   }
 `;
 

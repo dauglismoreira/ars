@@ -41,7 +41,7 @@ const BarContent = styled.div`
 const ExtraContainerHome = styled.div`
   width:100%;
   max-width:1640px;
-  height:48px;
+  height:57px;
   margin:auto;
 
   @media(max-width:1640px){
@@ -51,7 +51,7 @@ const ExtraContainerHome = styled.div`
   @media(max-width:768px){
     display:flex;
     justify-content:center;
-    height:72px;
+    height:58px;
     align-items:center;
   }
 `;
@@ -60,7 +60,7 @@ const ExtraContainerHome = styled.div`
 const ExtraContainer = styled.div`
   width:100%;
   max-width:1640px;
-  height:48px;
+  height:57px;
   margin:auto;
   display:flex;
   justify-content:space-between;
@@ -71,7 +71,7 @@ const ExtraContainer = styled.div`
   }
 
   @media(max-width:768px){
-    height:72px;
+    height:58px;
   }
 
   span{
@@ -89,12 +89,11 @@ const Logo = styled.div<{cover: string}>`
   background-size:contain;
   background-position:center center;
   background-repeat:no-repeat;
-  height:30px;
+  height:50px;
   width:95px;
 
   @media(max-width:768px){
-    margin-top:0px;
-    height:40px;
+    height:35px;
     width:95px;
   }
 `;
