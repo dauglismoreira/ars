@@ -12,7 +12,7 @@ export const EnableUnits = ({}) => {
                 <h1>Unidades disponíveis</h1>
                 <p className="no-mobile">Veja a tabela das unidades deste empreendimento</p>
                 <p className="no-desktop">Veja a tabela de nossas unidades.</p>
-                <Button href={'#'}>Ver unidades</Button>
+                <Button href={window.location.href + '/unidades'}>Ver unidades</Button>
             </ContentContainer>
         </Section>
       </ContainerUnits>
