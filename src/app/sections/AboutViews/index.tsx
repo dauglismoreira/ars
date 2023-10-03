@@ -75,7 +75,7 @@ export const AboutViews: React.FC<AboutViewsProps> = (props) => {
                     className={`mySwiper ${contentClass}`}
                 >
                     {props.aboutButtons ? 
-                    props.aboutImages.find(item => item.label === activeButtonLabel)?.photos.map((item, index) => (
+                    props.aboutImages.find(item => item.label === activeButtonLabel)?.photos.map((item: any, index: number) => (
                         <SwiperSlide key={index}>
                             <Fancybox options={{ infinite: false }} delegate="[data-fancybox='gallery']">
                                 <Image
@@ -90,7 +90,7 @@ export const AboutViews: React.FC<AboutViewsProps> = (props) => {
                         </SwiperSlide>
                     ))
                       :
-                      props.aboutImages.map((item, index) => (
+                      props.aboutImages.map((item: any, index: number) => (
                         <SwiperSlide key={index}>
                             <Fancybox options={{ infinite: false }} delegate="[data-fancybox='gallery']">
                                 <Image
