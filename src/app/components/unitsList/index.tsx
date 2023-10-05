@@ -88,8 +88,8 @@ export const UnitsList: React.FC<EnterpriseData> = ({
                   <Unit className="garages">{unit.garages}</Unit>
                   <Unit className="value"><span>R$</span>{unit.value}</Unit>
                   <Unit className="condition">{unit.condition}</Unit>
-                  <Unit className="more"><a href={window.location.href + '/' + unit.more}>Saber mais</a></Unit>
-                  <Unit className="action"><Button><a href={window.location.href + '/' + unit.more + '/interesse'}>Tenho interesse</a></Button></Unit>
+                  <Unit className="more"><a href={`${window.location.href}/${unit.more}`}>Saber mais</a></Unit>
+                  <Unit className="action"><Button><a href={`${window.location.href}/${unit.more}/interesse`}>Tenho interesse</a></Button></Unit>
                 </UnitRow>
                 <UnitRowMobile>
                   <StatusRow>

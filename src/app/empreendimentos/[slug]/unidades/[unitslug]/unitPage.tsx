@@ -42,7 +42,7 @@ export const UnitPage: React.FC<EnterpriseProps> = ({unit, menuItems, formInputs
               </div>
             </ExtraContainer>
           </Section>
-          <Section background="var(--color-grey-100)" padding="10px 0 10px">
+          <Section className="ancorFixed" background="var(--color-grey-100)" padding="10px 0 10px">
             <AncorMenu menuItems={menuItems}/>
           </Section>
         </TopFixed>
@@ -89,6 +89,7 @@ const TopFixed = styled.div`
   z-index:99;
   left:0;
   width:100%;
+
 `;
 
 const ExtraContainer = styled.div`
