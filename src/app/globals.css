@@ -42,7 +42,7 @@ h5{
 }
 p, li{
   font-size:var(--p-desktop-text-size);
-  font-weight:500;
+  font-weight:400;
 }
 
 @media(max-width:768px){

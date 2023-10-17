@@ -16,7 +16,7 @@ export const AboutLocal: React.FC<AboutLocalProps> = ({enterprise}) => {
         <Section className="localPadding">
             <SectionTitle text={'Conheça a localização'}/>
             <Content  className={FontRoboto.className}>
-                <h3>{enterprise.address}, {enterprise.district} - {enterprise.city}/{enterprise.state}</h3>
+                <h2>{enterprise.address}, {enterprise.district} - {enterprise.city}/{enterprise.state}</h2>
                 <p>{enterprise.localDescription}</p>
                 <Label className="no-mobile">Proximidades</Label>
                 <ItemsContainer>
@@ -72,8 +72,9 @@ const Content = styled.div`
   margin:60px auto;
   width:100%;
 
-  h3 {
+  h2 {
     color:var(--color-red-primary);
+    font-weight:500;
   }
 
   p {
@@ -85,7 +86,7 @@ const Content = styled.div`
     padding:0 20px;
     margin:30px auto 40px;
 
-    h3 {
+    h2 {
       font-size:var(--h5-text-size);
     }
 
@@ -98,7 +99,8 @@ const Content = styled.div`
 const Label = styled.div`
   color:var(--color-grey-60);
   text-transform:uppercase;
-  margin:30px 0;
+  margin:60px 0 30px;
+  font-size:var(--p-mobile-text-size);
 `;
 
 const ItemsContainer = styled.div`
@@ -106,7 +108,7 @@ const ItemsContainer = styled.div`
     margin:20px 0;
     max-width:680px;
     grid-template-columns: 1fr 1fr 1fr;
-    gap:10px;
+    gap:25px 10px;
 
     li{
       color:var(--color-grey-100);

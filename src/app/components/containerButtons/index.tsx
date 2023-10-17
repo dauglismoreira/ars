@@ -20,7 +20,7 @@ export const ContainerButtons: React.FC<ContainerButtonsProps> = ({buttons, onAc
         if (activeButtonIndex !== null) {
             onActiveButtonChange(buttons[activeButtonIndex].label);
         }
-      }, []);
+      }, [activeButtonIndex, buttons, onActiveButtonChange]);
 
     const handleButtonClick = (index: number) => {
         setActiveButtonIndex(index);

@@ -71,7 +71,7 @@ const Menu = styled.div`
     display:flex;
     flex-direction:column;
     gap:20px;
-    margin-top:40px;
+    margin-top:45px;
 
     @media(max-width:768px){
         display:none;
@@ -110,7 +110,7 @@ const Details = styled.div`
 
     display:flex;
     flex-direction:column;
-    gap:20px;
+    gap:30px;
 
     li {
         list-style:none;

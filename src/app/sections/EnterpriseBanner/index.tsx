@@ -31,12 +31,12 @@ export const EnterpriseBanner: React.FC<EnterpriseProps> = ({enterprise}) => {
 
 const ContainerBanner = styled.div`
   .bannerPadding{
-    padding:200px 0 0;
+    padding:175px 0 0;
   }
 
   @media(max-width:768px){
     .bannerPadding{
-      padding:180px 0 0;
+      padding:90px 0 0;
     }
   }
 `;
@@ -156,6 +156,7 @@ const Logo = styled.div<{image: string}>`
   background-size:cover;
   background-image:url('${props => props.image}');
   margin-top:40px;
+  margin-right:-80px;
 
   @media(max-width:768px){
     display:none;

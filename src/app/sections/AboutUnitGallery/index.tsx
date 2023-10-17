@@ -128,6 +128,7 @@ export const AboutUnitGallery: React.FC<AboutGalleryProps> = ({photos}) => {
                   <CustomNavButton onClick={handleNextClick} className="custom-next-button"><SlArrowRight size="2rem"/></CustomNavButton>
               </ContainerNav>
           </Swiper>
+          <UserViews><p>2 pessoas interessadas nesse apartamento</p></UserViews>
         </ContainerSwiper>
         }
       </ContainerGallery>      
@@ -135,11 +136,13 @@ export const AboutUnitGallery: React.FC<AboutGalleryProps> = ({photos}) => {
 }
 
 const ContainerGallery = styled.div`
-  margin-top:220px;
+  margin-top:210px;
+  padding:0 30px;
   margin-bottom:20px;
 
   @media(max-width:768px){
-    margin-top:180px;
+    margin-top:90px;
+    padding:0;
   }
 `;
 
@@ -178,6 +181,13 @@ const UserViews = styled.div`
   position:absolute;
   bottom:30px;
   right:120px;
+
+  @media(max-width:768px){
+    z-index:99;
+    bottom:45px;
+    right:auto;
+    left:10px;
+  }
 `;
 
 const ColLeft = styled.div`
@@ -253,21 +263,23 @@ const CustomNavButton = styled.div`
       transform: translateY(-150%);
 
       &.custom-next-button{
-        right:0px;
+        right:20px;
       }
 
       &.custom-prev-button{
-        left:0px;
+        left:20px;
       }
     }
 `;
 
 const ContainerSwiper = styled.div`
     @media(max-width:768px){
+      position:relative;
       padding:0;
       img {
         height:280px;
         width:100%;
+        object-fit:cover;
       }
 
       .swiper-wrapper{

@@ -28,7 +28,7 @@ export const AncorMenu: React.FC<AncorMenuProps> = ({menuItems}) => {
 
     return (
       <ContainerMenu>
-        <Section className="menuPadding" background="var(--color-grey-100)">
+        <Section padding={'0'} className="menuPadding" background="var(--color-grey-100)">
           <ArcorMenu className={FontRoboto.className}>
             {menuItems.map((item, index) => (
               <Item key={index}>
@@ -51,10 +51,15 @@ export const AncorMenu: React.FC<AncorMenuProps> = ({menuItems}) => {
 
 const ContainerMenu = styled.div`
   .menuPadding{
-    padding:10px 0 10px;
+    padding:8px 0;
+  }
+  
+  @media(min-width:768px){
+    border-bottom:solid 1px #333130;
   }
 
   @media(max-width:768px){
+    border-top:solid 1px #333130;
     .menuPadding{
       padding:0;
     }
@@ -67,15 +72,14 @@ const ArcorMenu = styled.div`
   margin:auto;
   display:flex;
   flex-direction:row;
-  gap:50px;
   scroll-behavior: smooth;
+  padding:0;
 
   @media(max-width:1640px){
-    padding:0 15px 10px;
+    padding:0 0 10px;
   }
 
   @media(max-width:768px){
-    gap:20px;
     overflow-x:auto;
   }
 `;
@@ -90,6 +94,7 @@ const ContainerImage = styled.div`
     height:auto;
     transition:0.3s;
   }
+  
 
   @media(max-width:768px){
     height:28px;
@@ -105,8 +110,14 @@ const Item = styled.a`
   flex-direction:column;
   align-items:center;
   gap:10px;
-  height:69px;
+  height:60px;
+  width:100px;
   cursor:pointer;
+  border-left:solid 1px #333130;
+
+  &:last-child{
+    border-right:solid 1px #333130;
+  }
 
   p{
     color:var(--color-grey-0);
@@ -119,6 +130,8 @@ const Item = styled.a`
 
   @media(max-width:768px){
     height:52px;
+    margin-top:5px;
+    min-width:80px;
     p{
       font-size:var(--overline);
     }

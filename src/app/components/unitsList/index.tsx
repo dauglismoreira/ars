@@ -139,10 +139,10 @@ export const UnitsList: React.FC<EnterpriseData> = ({
 
 const ExtraContainer = styled.div`
   max-width:1640px;
-  margin:280px auto 0;
+  margin:180px auto 0;
 
   @media(max-width:768px){
-    margin:170px auto 0;
+    margin:140px auto 0;
   }
 `;
 
@@ -194,6 +194,10 @@ const LabelsRow = styled.div`
 const Label = styled.div`
   font-size:var(--overline);
   color:var(--color-grey-60);
+
+  @media(max-width:1200px){
+    text-transform:uppercase;
+  }
 `;
 
 const TypeRow = styled.div`
@@ -290,9 +294,11 @@ const UnitRow = styled.div`
   }
   .action{
     flex:1;
+
     @media(max-width:1200px){
       font-size:var(--p-mobile-text-size);
     }
+    
   }
 
   @media(max-width:1100px){
@@ -366,11 +372,16 @@ const PriceRow = styled.div`
     font-size:var(--h3-text-size);
     display:flex;
     font-weight:600;
+    margin-top:-5px;
 
     span{
       margin-top:5px;
       margin-right:5px;
       font-size:var(--p-desktop-text-size);
+
+      @media(max-width:1200px){
+        font-size:var(--h3-text-size);
+      }
     }
   }
 `;
@@ -395,6 +406,13 @@ const ActionsRow = styled.div`
     min-width:169px;
     font-weight:600;
   }
+
+  @media(max-width:1200px){
+    .action{
+      min-width:initial;
+      width:100%;
+    }
+  }
 `;
 
 const Button = styled.button`
@@ -416,5 +434,7 @@ const Button = styled.button`
 
   @media(max-width:1200px){
     font-size:var(--p-mobile-text-size);
+    max-width:initial;
+    width:100%;
   }
 `;

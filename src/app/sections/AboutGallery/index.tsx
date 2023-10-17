@@ -126,7 +126,7 @@ export const AboutGallery: React.FC<AboutGalleryProps> = (props) => {
 
 const ContainerGallery = styled.div`
   .galleryPadding{
-      padding:100px 0;
+      padding:200px 0 100px;
   }
 
   @media(max-width:768px){
@@ -138,7 +138,7 @@ const ContainerGallery = styled.div`
 
 const ContainerNav = styled.div`
     width:100%;
-    max-width:1045px;
+    max-width:900px;
     margin:auto;
     position:absolute;
     left:49%;

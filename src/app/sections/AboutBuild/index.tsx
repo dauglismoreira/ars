@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import { Navigation, Mousewheel, Keyboard } from 'swiper/modules';
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import {BsFillPlayFill} from 'react-icons/bs';
-import {useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 
 import 'swiper/css';
 import { FontRoboto } from '@/app/fonts';
@@ -75,6 +75,12 @@ export const AboutBuild: React.FC<AboutBuildProps> = ({videos, progress}) => {
         }
     };
 
+    const [activeButtonIndex, setActiveButtonIndex] = useState<number | null>(0);
+
+    const handleButtonClick = (index: number) => {
+        setActiveButtonIndex(index);
+    };
+
     return (
       <BuildContainer>
         <LineDivider></LineDivider>
@@ -85,11 +91,17 @@ export const AboutBuild: React.FC<AboutBuildProps> = ({videos, progress}) => {
               <p><span>Início:</span> Janeiro/2020</p>
               <p><span>Entrega:</span> Dezembro/2024</p>
             </Dates>
-            <ContainerButtons
-              buttons={aboutButtons}
-             onActiveButtonChange={handleActiveButtonChange}
-            />
-            {activeButtonLabel === 'Andamento' &&
+            <ButtonsContainer>
+              {aboutButtons.map((button, index) => (
+                <Button
+                    key={index}
+                    active={activeButtonIndex === index}
+                    className={FontRoboto.className}
+                    onClick={() => handleButtonClick(index)}
+                >{button.label}</Button>
+              ))}
+            </ButtonsContainer>
+            {activeButtonIndex === 0 &&
               <ContainerProgress  className={FontRoboto.className}>
                 <ProgressBar label="Progresso Total" progress={progress.total}/>
                 <ProgressBar label="Fundação" progress={progress.fundation}/>
@@ -99,7 +111,7 @@ export const AboutBuild: React.FC<AboutBuildProps> = ({videos, progress}) => {
                 <ProgressBar label="Pintura e Acabamento" progress={progress.paint}/>
               </ContainerProgress>
             }
-            {activeButtonLabel === 'Vídeos' &&
+            {activeButtonIndex === 1 &&
               <ContainerSwiper  className={FontRoboto.className}>
                 <Swiper
                     slidesPerView={1}
@@ -118,10 +130,9 @@ export const AboutBuild: React.FC<AboutBuildProps> = ({videos, progress}) => {
                 >
                     {videos.map((item, index) => (
                         <SwiperSlide key={index}>
-                          <video ref={videoRef} controls width={900} height={670} onClick={handlePlayClick}>
-                            <source src={item.url} type="video/mp4" />
-                            Seu navegador não suporta a reprodução de vídeos.
-                          </video>
+                          <VideoContainer>
+                            <div dangerouslySetInnerHTML={{__html: item.url}}/>
+                          </VideoContainer> 
                           {!isPlaying && (
                             <PlayButton>
                               <BsFillPlayFill size="2rem" onClick={handlePlayClick} />
@@ -163,7 +174,21 @@ const BuildContainer = styled.div`
     }
   }
 
+`;
 
+const VideoContainer = styled.div`
+  iframe{
+    width:calc(100% - 40px);
+    margin:auto;
+    height:673px;
+  }
+
+  @media(max-width:768px){
+    iframe{
+      height:193px;
+      width:100%;
+    }
+  }
 `;
 
 const LineDivider = styled.div`
@@ -287,7 +312,7 @@ const CustomNavButton = styled.div`
     @media(max-width:768px){
       width:20px;
       height:20px;
-      transform: translateY(670%);
+      transform: translateY(500%);
 
       &.custom-next-button{
         right:0px;
@@ -317,5 +342,51 @@ const PlayButton = styled.div`
     svg {
       color:var(--color-red-primary);
       margin:0 0 0 5px;
+    }
+`;
+
+const Button = styled.div<{active: boolean}>`
+    border:solid 1px ${props => !props.active ? 'var(--color-grey-100)' : 'var(--color-red-primary)'};
+    height:48px;
+    width:168px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:var(--button-size);
+    font-weight:500;
+    color: ${props => !props.active ? 'var(--color-grey-100)' : 'var(--color-red-primary)'};
+    cursor:pointer;
+
+    &:hover{
+        border:solid 1px var(--color-red-primary);
+        color: var(--color-red-primary);
+    }
+
+    @media(max-width:768px){
+        width:auto;
+        padding:0 20px;
+    }
+`;
+
+const ButtonsContainer = styled.div`
+    margin:auto;
+    max-width:940px;
+    position:relative;
+
+    display:flex;
+    flex-direction:row;
+    gap:32px;
+
+    @media(max-width:768px){
+        display:flex;
+        overflow-x:auto;
+        white-space: nowrap;
+        gap:16px;
+        padding:0 20px 10px;
+        margin-top:-10px;
+
+        ${Button}{
+          width:50%;
+        }
     }
 `;

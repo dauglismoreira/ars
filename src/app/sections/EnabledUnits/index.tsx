@@ -51,7 +51,9 @@ const ContentContainer = styled.div`
     }
 
     p{
-        color:var(--color-grey-0);
+      font-size:var(--h3-text-size);
+      color:var(--color-grey-0);
+      font-weight:300;
     }
 
     @media(max-width:768px){
@@ -77,6 +79,11 @@ const Button = styled.a`
 
     @media(max-width:768px){
       width:calc(100% - 40px);
+    }
+
+    &:hover{
+      color:var(--color-grey-100);
+      border:solid 1px var(--color-grey-100);
     }
 `;
 

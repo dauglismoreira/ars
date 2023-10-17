@@ -31,6 +31,7 @@ const Title = styled.div`
 
     h2 {
         position:relative;
+        font-weight:500;
     }
 
     @media(min-width:768px){

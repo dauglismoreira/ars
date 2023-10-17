@@ -17,8 +17,8 @@ export const AboutTour: React.FC<AboutTourProps> = ({tour}) => {
         <LineDivider></LineDivider>
         <Section className="tourPadding">
             <SectionTitle text={'Tour 360'}/>
-            <p className="no-desktop">Visite sem sair de casa.</p>
             <ContainerSwiper  className={FontRoboto.className}>
+              <p>Visite sem sair de casa.</p>
                 <Button className="no-mobile" href={tour.link} target="_blank">Iniciar Tour 360</Button>
                 <TourCover background={tour.cover} onClick={() => {
                   setTimeout(() => {
@@ -78,6 +78,13 @@ const ContainerSwiper = styled.div`
     margin:30px auto 30px;
     position:relative;
     padding:0 20px;
+
+    p{
+      margin-left:-20px;
+      margin-bottom:30px;
+      margin-top:-15px;
+      color:var(--color-grey-100);
+    }
 `;
 
 const TourCover = styled.div<{background: string}>`
@@ -129,5 +136,10 @@ const Button = styled.a`
       width:100%;
       margin-top:20px;
       font-weight:600;
+    }
+
+    &:hover{
+      color:var(--color-red-primary);
+      border:solid 1px var(--color-red-primary);
     }
 `;

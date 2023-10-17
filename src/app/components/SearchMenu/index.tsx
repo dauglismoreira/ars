@@ -43,6 +43,7 @@ export const Filters: React.FC<EnterprisePageProps> = ({citiesOptions, situation
         window.history.pushState({ path: newUrl }, '', newUrl);
     }, [situationFilter])
 
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(count > 0){
         if(!showFilters){
@@ -55,6 +56,7 @@ export const Filters: React.FC<EnterprisePageProps> = ({citiesOptions, situation
             setCount(count => count + 1)
         }
     }, [open])
+    /* eslint-disable react-hooks/exhaustive-deps */
 
     useEffect(() => {
         if (open) {
@@ -189,7 +191,7 @@ const OpenFiltersContainer = styled.div<{open: boolean}>`
     z-index:99;
     background-color:var(--color-red-primary);
     height:${props => props.open ? '220px' : '0'};
-    top:128px;
+    top:108px;
     width:100%;
     left:0;
     padding:${props => props.open ? '20px 20px 40px' : '0 20px'};

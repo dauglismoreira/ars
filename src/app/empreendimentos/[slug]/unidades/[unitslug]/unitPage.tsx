@@ -25,7 +25,7 @@ export const UnitPage: React.FC<EnterpriseProps> = ({unit, menuItems, formInputs
     return (
       <>
         <TopFixed>
-          <Section background="var(--color-red-primary)" padding="10px 0">
+          <Section className="padding-top" background="var(--color-red-primary)" >
             <ExtraContainer>
               <h5 className={FontRoboto.className}>{unit.title} - {unit.type} - {unit.unit}</h5>
               <div>
@@ -42,7 +42,7 @@ export const UnitPage: React.FC<EnterpriseProps> = ({unit, menuItems, formInputs
               </div>
             </ExtraContainer>
           </Section>
-          <Section className="ancorFixed" background="var(--color-grey-100)" padding="10px 0 10px">
+          <Section  className="no-mobile" background="var(--color-grey-100)" padding="0">
             <AncorMenu menuItems={menuItems}/>
           </Section>
         </TopFixed>
@@ -79,6 +79,11 @@ export const UnitPage: React.FC<EnterpriseProps> = ({unit, menuItems, formInputs
                 formInputs={formInputs}
             />
         </div>
+        <BottomFixed>
+          <Section className="no-desktop" background="var(--color-grey-100)" padding="0">
+            <AncorMenu menuItems={menuItems}/>
+          </Section>
+        </BottomFixed>
       </>
     )
 }
@@ -90,6 +95,38 @@ const TopFixed = styled.div`
   left:0;
   width:100%;
 
+  .padding-top{
+    padding:10px 0;
+  }
+
+  @media(max-width:768px){
+    .padding-top{
+      padding:5px 0;
+    }
+
+    span{
+      display:none;
+    }
+
+    .no-mobile{
+      display:none;
+    }
+  }
+`;
+
+const BottomFixed = styled.div`
+  position:fixed;
+  z-index:99;
+  left:0;
+  bottom:0;
+  width: 100%;
+
+
+  @media(min-width:768px){
+    .no-desktop{
+      display:none;
+    }
+  }
 `;
 
 const ExtraContainer = styled.div`

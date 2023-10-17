@@ -24,7 +24,7 @@ export const Header = () => {
             :
             <ExtraContainer>
               <a href="./../../../../../" target="_parent"><Logo cover="/images/logo_color.png"/></a>
-              <a href="./../../../../../" target="_parent"><span>Ver todos os empreendimentos</span></a>
+              <a href="./../../../../../" target="_parent"><span>Ver todos empreendimentos</span></a>
             </ExtraContainer>
             }
         </Section>
@@ -75,7 +75,7 @@ const ExtraContainer = styled.div`
   }
 
   span{
-    font-size:var(--overline);
+    font-size:var(--p-mobile-text-size);
     color:var(--color-red-primary);
     text-decoration:underline;
     font-weight:500;
@@ -89,8 +89,8 @@ const Logo = styled.div<{cover: string}>`
   background-size:contain;
   background-position:center center;
   background-repeat:no-repeat;
-  height:50px;
-  width:95px;
+  height:55px;
+  width:105px;
 
   @media(max-width:768px){
     height:35px;

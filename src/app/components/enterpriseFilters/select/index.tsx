@@ -37,7 +37,7 @@ export const Select: React.FC<SelectProps> = ({ options, placeholder, clearFilte
 };
 
 const ContainerSelect = styled.div`
-  border-bottom: solid 1px var(--color-grey-0);
+  border-bottom: solid 1px rgba(255, 255, 255, 0.5);
   padding-right:5px;
 `;
 

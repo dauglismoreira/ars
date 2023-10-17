@@ -76,10 +76,9 @@ export const AboutVideos: React.FC<AboutVideosProps> = ({videos}) => {
                 >
                     {videos.map((item, index) => (
                         <SwiperSlide key={index}>
-                          <video ref={videoRef} controls width={900} height={670} onClick={handlePlayClick}>
-                            <source src={item.url} type="video/mp4" />
-                            Seu navegador não suporta a reprodução de vídeos.
-                          </video>
+                          <VideoContainer>
+                            <div dangerouslySetInnerHTML={{__html: item.url}}/>
+                          </VideoContainer>  
                           {!isPlaying && (
                             <PlayButton>
                               <BsFillPlayFill size="2rem" onClick={handlePlayClick} />
@@ -106,6 +105,21 @@ const VideosContainer = styled.div`
   @media(max-width:768px){
     .videosPadding{
       padding:75px 0 0;
+    }
+  }
+`;
+
+const VideoContainer = styled.div`
+  iframe{
+    width:calc(100% - 40px);
+    margin:auto;
+    height:673px;
+  }
+
+  @media(max-width:768px){
+    iframe{
+      height:193px;
+      width:100%;
     }
   }
 `;

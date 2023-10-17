@@ -61,6 +61,7 @@ export const UnitsFilters: React.FC<UnitsFiltersProps> = ({
     }
   };
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     if(count > 0){
     if(!showFilters){
@@ -73,6 +74,7 @@ export const UnitsFilters: React.FC<UnitsFiltersProps> = ({
         setCount(count => count + 1)
     }
 }, [open])
+/* eslint-disable react-hooks/exhaustive-deps */
 
   useEffect(() => {
     if (open) {
@@ -167,8 +169,8 @@ export const UnitsFilters: React.FC<UnitsFiltersProps> = ({
                   label='false'
                   ruler='false'
                   barInnerColor='var(--color-grey-0)'
-                  barLeftColor='var(--color-grey-60)'
-                  barRightColor='var(--color-grey-60)'
+                  barLeftColor='var(--color-grey-0)'
+                  barRightColor='var(--color-grey-0)'
                   subSteps='false'
                   step={5}
                   minValue={min}
@@ -207,12 +209,13 @@ export const UnitsFilters: React.FC<UnitsFiltersProps> = ({
 const ContainerFilters = styled.div`
   position:fixed;
   width:100%;
-  top:197px;
+  top:162px;
   left:0;
   right:0;
 
   .filtersSection{
     width:100%;
+    padding:0;
   }
 
   @media(max-width:1100px){
@@ -228,7 +231,7 @@ const ContainerFilters = styled.div`
   }
 
   @media(max-width:768px){
-    top:174px;
+    top:145px;
   }
 `;
 
@@ -237,7 +240,7 @@ const ExtraContainer = styled.div<{open: boolean}>`
   margin:auto;
   display:flex;
   gap:50px;
-  padding:20px;
+  padding:10px 20px 0 20px;
   background-color:var(--color-red-primary);
 
 
@@ -348,6 +351,13 @@ const AreaFilter = styled.div`
   .multi-range-slider .caption{
     display:none!important;
   }
+  .multi-range-slider .bar-right{
+    height:3px;
+  }
+  .multi-range-slider .bar-left{
+    height:3px;
+    padding:0;
+  }
 `;
 
 const TypesFilter = styled.div`
@@ -388,6 +398,11 @@ const Item = styled.div`
     color:var(--color-red-primary);
     background-color:var(--color-grey-0);
   }
+
+  &:hover{
+    color:var(--color-grey-100);
+    border:solid 1px var(--color-grey-100);
+  }
 `;
 
 const Label = styled.div`
@@ -410,6 +425,7 @@ const SelectContainer = styled.div`
     max-width:215px;
     min-width:215px;
     height:30px;
+    outline: none;
 
     :focus {
       outline: none!important;
@@ -431,6 +447,12 @@ const Button = styled.div`
   justify-content:center;
   color:var(--color-grey-0);
   cursor:pointer;
+  margin-top:-10px;
+
+  &:hover{
+    color:var(--color-grey-100);
+    border:solid 1px var(--color-grey-100);
+  }
 `;
 
 const Values = styled.div`

@@ -1,6 +1,7 @@
 import { FontRoboto } from '@/app/fonts';
 import useScreenSize from '@/hooks/useScreenSize';
 import styled from 'styled-components';
+import ImpacteIcon from '@/impacte/ImpacteIcon'
 
 interface CopyRightProps {
     text?:string;
@@ -16,7 +17,7 @@ export const CopyRight: React.FC<CopyRightProps> = ({text, link}) => {
             <Policy href={link} target="_parent"><small>{
             isLargeScreen.isLargeScreen ? text : (textParts ? `${textParts[0]}\n©${textParts[1]}` : text)
             }</small></Policy>
-            <Impacte href={'#'} target="_blank"><small>Desenvolvido por impacte</small></Impacte>
+            <Impacte><small>Desenvolvido por</small><ImpacteIcon /></Impacte>
         </CopyContainer>
     )
 }
@@ -44,8 +45,17 @@ const Policy = styled.a`
     }
 `;
 
-const Impacte = styled.a`
+const Impacte = styled.div`
     color:var(--color-grey-0);
     font-size:var(--p-desktop-text-size);
     font-weight:300;
+    display:flex;
+    gap:10px;
+    align-items:center;
+
+    a{
+        width:75px;
+        fill:#fff;
+        padding-top:3px;
+    }
 `;

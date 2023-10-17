@@ -42,6 +42,13 @@ export const UnitsFixedTitle: React.FC<UnitsFixedTitleProps> = ({
 const ContainerFixedTitle = styled.div`
     .fixedTitle{
         position:fixed;
+        padding:0;
+    }
+
+    @media(max-width:768px){
+      .fixedTitle{
+        padding:5px 0;
+      }
     }
 `;
 

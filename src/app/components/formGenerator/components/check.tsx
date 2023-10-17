@@ -15,7 +15,7 @@ export const CheckFormAccept: React.FC<CheckContainerProps> = ({ onAcceptChange,
     };
 
     return (
-        <CheckContainer color={color ? color : 'var(text-white)'}>
+        <CheckContainer color={color ? color : 'var(--color-grey-0)'}>
             <input id="accept" name="accept" type="checkbox"
                 checked={accept}
                 onChange={handleAcceptChange}

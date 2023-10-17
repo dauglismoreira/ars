@@ -28,7 +28,7 @@ export const AboutIntro: React.FC<AboutIntroProps> = ({enterprise}) => {
                   </Skills>
                   <LineDivider></LineDivider>
                   <Content>
-                    <h4>{enterprise.slogan}</h4>
+                    <h3>{enterprise.slogan}</h3>
                     <p>{enterprise.resum}</p>
                   </Content>
                 </Col>
@@ -75,6 +75,7 @@ const AboutSectionContainer = styled.div`
 const AboutImage = styled.div<{image: string}>`
   width:448px;
   height:597px;
+  margin-left:80px;
   background-color:#cdcdcd;
   background-position:center center;
   background-size:cover;
@@ -107,16 +108,16 @@ const Skill = styled.div`
 
 const Content = styled.div`
     color:var(--color-grey-0);
-    max-width:480px;
+    max-width:580px;
 
-    h4 {
+    h3 {
         margin-bottom:30px;
         font-weight:600;
     }
 
     p {
         font-size:var(--p-mobile-text-size);
-        font-weight:400;
+        font-weight:300;
         line-height:1.6;
     }
 

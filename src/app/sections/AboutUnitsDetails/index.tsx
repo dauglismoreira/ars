@@ -45,12 +45,12 @@ export const AboutUnitsDetails: React.FC<AboutDetailsProps> = (props) => {
 }
 
 const ContainerDetails = styled.div`
-  detailsPadding{
+  .detailsPadding{
     padding:0 0 75px;
   }
 
   @media(max-width:768px){
-    detailsPadding{
+    .detailsPadding{
       padding:0 0 25px;
     }
   }
@@ -117,7 +117,7 @@ const Details = styled.div`
 
     display:flex;
     flex-direction:column;
-    gap:20px;
+    gap:35px;
 
     li {
         list-style:none;
@@ -139,6 +139,7 @@ const Details = styled.div`
     @media(max-width:768px){
         padding:0;
         margin-top:20px;
+        gap:20px;
     }
 `;
 

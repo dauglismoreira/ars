@@ -44,7 +44,7 @@ export const ContactPage: React.FC<ContactProps> = ({formInputs ,unit}) => {
               />
             </ContainerForm>
             <ContainerActionForm>
-              <CheckFormAccept color="var(--color-grey-60)"  onAcceptChange={setAccept}/>
+              <CheckFormAccept color="var(--color-grey-0)"  onAcceptChange={setAccept}/>
                   {accept ?
                       <ButtonContainer><button onClick={handleFormSubmit}>Enviar</button></ButtonContainer>
                       :
@@ -72,6 +72,7 @@ const Title = styled.div`
   color:var(--color-grey-0);
   border-bottom:solid 1px var(--color-red-secondary);
   margin-top:30px;
+  font-weight:500;
 
   @media(max-width:768px){
     font-size:var(--h3-text-size);

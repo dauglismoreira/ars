@@ -102,9 +102,13 @@ const Skills = styled.div`
     flex-direction:column;
     justify-content:flex-start;
     color:var(--color-grey-80);
+
+    p{
+        font-size:var(--p-mobile-text-size);
+    }
 `;
 
-const Link = styled.a`
+const Link = styled.div`
     color:var(--color-red-primary);
     font-weight:600;
     position:relative;

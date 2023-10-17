@@ -6,6 +6,7 @@ import "@fancyapps/ui/dist/fancybox/fancybox.css";
 function Fancybox(props) {
     const delegate = props.delegate || "[data-fancybox='gallery']";
   
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
       const opts = props.options || {};
   
@@ -15,6 +16,7 @@ function Fancybox(props) {
         NativeFancybox.destroy();
       };
     }, []);
+    /* eslint-disable react-hooks/exhaustive-deps */
   
     return <>{props.children}</>;
   }
