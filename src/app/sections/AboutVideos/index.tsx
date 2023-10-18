@@ -79,8 +79,6 @@ export const AboutVideos: React.FC<AboutVideosProps> = ({videos}) => {
                           <VideoContainer>
                             <div dangerouslySetInnerHTML={{__html: item.url}}/>
                           </VideoContainer>  
-                          {!isPlaying && (
-                          )}
                           <SlideLegend data={videos} index={index} description={item.description}/>
                         </SwiperSlide>
                     ))}
