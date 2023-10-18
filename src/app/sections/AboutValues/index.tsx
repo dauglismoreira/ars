@@ -42,7 +42,7 @@ export const AboutValues: React.FC<AboutValuesProps> = ({aboutValues, price}) =>
             </ContentContainer>
             <ContactContainer>
                 <Image
-                    src={'/icons/contract_edit_FILL0_wght300_GRAD0_opsz48.png'}
+                    src={'/icons/contract.png'}
                     width={59}
                     height={58}
                     alt={'Proposta'}

@@ -134,9 +134,6 @@ export const AboutBuild: React.FC<AboutBuildProps> = ({videos, progress}) => {
                             <div dangerouslySetInnerHTML={{__html: item.url}}/>
                           </VideoContainer> 
                           {!isPlaying && (
-                            <PlayButton>
-                              <BsFillPlayFill size="2rem" onClick={handlePlayClick} />
-                            </PlayButton>
                           )}
                           <SlideLegend data={videos} index={index} description={item.description}/>
                         </SwiperSlide>

@@ -182,32 +182,32 @@ export const unit = [
 export const menuItems = [
 
     {
-      image:'/icons/feed_FILL0_wght200_GRAD0_opsz48.png',
+      image:'/icons/feed.png',
       label:'Informações',
       link:'informacoes'
     },
     {
-      image:'/icons/photo_camera_FILL0_wght200_GRAD0_opsz48.png',
+      image:'/icons/photo_camera.png',
       label:'Galeria',
       link:'galeria'
     },
     {
-        image:'/icons/wb_twilight_FILL0_wght200_GRAD0_opsz48.png',
+        image:'/icons/wb_twilight.png',
         label:'Vista',
         link:'vista'
       },
     {
-      image:'/icons/bedroom_child_FILL0_wght200_GRAD0_opsz48.png',
+      image:'/icons/bedroom.png',
       label:'Planta',
       link:'planta'
     },
     {
-      image:'/icons/payments_FILL0_wght200_GRAD0_opsz48.png',
+      image:'/icons/payments.png',
       label:'Valores',
       link:'valores'
     },
     {
-        image:'/icons/apartment_FILL0_wght200_GRAD0_opsz48.png',
+        image:'/icons/apartment.png',
         label:'Disponíveis',
         link:'disponiveis'
       },

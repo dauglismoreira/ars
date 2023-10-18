@@ -390,47 +390,47 @@ export const enterprise = [
 
 export const menuItems = [
     {
-      image:'/icons/apartment_FILL0_wght200_GRAD0_opsz48.png',
+      image:'/icons/apartment.png',
       label:'Disponíveis',
       link:'disponiveis'
     },
     {
-      image:'/icons/feed_FILL0_wght200_GRAD0_opsz48.png',
+      image:'/icons/feed.png',
       label:'Informações',
       link:'informacoes'
     },
     {
-      image:'/icons/photo_camera_FILL0_wght200_GRAD0_opsz48.png',
+      image:'/icons/photo_camera.png',
       label:'Galeria',
       link:'galeria'
     },
     {
-      image:'/icons/bedroom_child_FILL0_wght200_GRAD0_opsz48.png',
+      image:'/icons/bedroom.png',
       label:'Plantas',
       link:'plantas'
     },
     {
-      image:'/icons/location_on_FILL0_wght200_GRAD0_opsz48.png',
+      image:'/icons/location.png',
       label:'Localização',
       link:'local'
     },
     {
-      image:'/icons/videocam_FILL0_wght200_GRAD0_opsz48.png',
+      image:'/icons/videocam.png',
       label:'Vídeos',
       link:'videos'
     },
     {
-      image:'/icons/360_FILL0_wght400_GRAD0_opsz48.png',
+      image:'/icons/360.png',
       label:'Tour 360',
       link:'tour'
     },
     {
-      image:'/icons/construction_FILL0_wght200_GRAD0_opsz48.png',
+      image:'/icons/construction.png',
       label:'Obras',
       link:'obra'
     },
     {
-      image:'/icons/call_FILL0_wght400_GRAD0_opsz48.png',
+      image:'/icons/call.png',
       label:'Contato',
       link:'#'
     },
