@@ -75,7 +75,7 @@ export const AboutUnitGallery: React.FC<AboutGalleryProps> = ({photos}) => {
               quality={100}
               loading="eager" 
               data-fancybox="false"
-              src={'/icons/gallery_thumbnail_FILL0_wght300_GRAD0_opsz48.png'} alt={`Galeria`}
+              src={'/icons/gallery.png'} alt={`Galeria`}
               />Mostrar todas as fotos</AllImagesButton>
             </ColRight>
           </ContainerGridImages>
