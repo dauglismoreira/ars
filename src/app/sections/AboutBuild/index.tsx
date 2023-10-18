@@ -321,27 +321,6 @@ const CustomNavButton = styled.div`
     }
 `;
 
-const PlayButton = styled.div`
-    width:80px;
-    height:80px;
-    border:solid 5px var(--color-red-primary);
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    transition:0.3s;
-    position:absolute;
-    top:49%;
-    left:48%;
-    transform:translate(-50%, -50%);
-
-    svg {
-      color:var(--color-red-primary);
-      margin:0 0 0 5px;
-    }
-`;
-
 const Button = styled.div<{active: boolean}>`
     border:solid 1px ${props => !props.active ? 'var(--color-grey-100)' : 'var(--color-red-primary)'};
     height:48px;
