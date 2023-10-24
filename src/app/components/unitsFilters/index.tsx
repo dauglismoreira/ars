@@ -9,7 +9,7 @@ import {AiOutlineDownload} from 'react-icons/ai';
 import useScreenSize from '@/hooks/useScreenSize';
 
 interface TypeProps {
-  type:string;
+  name:string;
 }
 
 interface UnitsFiltersProps {
@@ -91,7 +91,7 @@ export const UnitsFilters: React.FC<UnitsFiltersProps> = ({
         <FixedFilters className="no-desktop">
           <ContainerToogle>
             <p>Filtro</p>
-            <Toogle open={open}  onClick={() => setOpen(!open)}> 
+            <Toogle open={open ? 'true' : 'false'}  onClick={() => setOpen(!open)}> 
               <span></span>
               <span></span>
               <span></span>
@@ -102,7 +102,7 @@ export const UnitsFilters: React.FC<UnitsFiltersProps> = ({
             Gerar PDF
           </PDFActionMobile>
         </FixedFilters>
-        <ExtraContainer className={FontRoboto.className}  open={open}>
+        <ExtraContainer className={FontRoboto.className}  open={open ? 'true' : 'false'}>
           {showFilters || isLargeScreen.isLargeScreen ?
             <>
               <DormsFilter>
@@ -187,7 +187,7 @@ export const UnitsFilters: React.FC<UnitsFiltersProps> = ({
                   <select value={selectedType} onChange={(e) => onTypeChange(e.target.value)}>
                     <option value=''>Mostrar todos</option>
                     {types.map((type, index) => (
-                      <option key={index} value={type.type}>{type.type}</option>
+                      <option key={index} value={type.name}>{type.name}</option>
                     ))}
                   </select>
                 </SelectContainer>
@@ -235,7 +235,7 @@ const ContainerFilters = styled.div`
   }
 `;
 
-const ExtraContainer = styled.div<{open: boolean}>`
+const ExtraContainer = styled.div<{open: string}>`
   max-width:1640px;
   margin:auto;
   display:flex;
@@ -245,10 +245,10 @@ const ExtraContainer = styled.div<{open: boolean}>`
 
 
   @media(max-width:1100px){
-    height:${props => props.open ? '410px' : '0'};
+    height:${props => props.open === 'true' ? '410px' : '0'};
     margin-top:50px;
     flex-direction:column;
-    padding:${props => props.open ? '30px 20px' : '0 20px'};
+    padding:${props => props.open === 'true' ? '30px 20px' : '0 20px'};
 
     .no-mobile {
       display:none;
@@ -273,7 +273,7 @@ const PDFActionMobile = styled.div`
   gap:8px;
 `;
 
-const Toogle = styled.div<{open: boolean}>`
+const Toogle = styled.div<{open: string}>`
   width:30px;
   height:20px;
   display:flex;
@@ -290,18 +290,18 @@ const Toogle = styled.div<{open: boolean}>`
     transition: 0.3s ease-in-out;
 
     &:nth-child(1){
-        transform:rotate(${props =>  props.open ? '-45deg' : 'none'});
-        margin-bottom:${props =>  props.open ? '-17px' : '0'};
+        transform:rotate(${props =>  props.open === 'true' ? '-45deg' : 'none'});
+        margin-bottom:${props =>  props.open === 'true' ? '-17px' : '0'};
       }
 
     &:nth-child(2){
-      width:${props =>  props.open ? '100%' : '100%'};
-      transform:rotate(${props =>  props.open ? '45deg' : 'none'});
-      margin-bottom:${props =>  props.open ? '-15px' : '0'};
+      width:${props =>  props.open === 'true' ? '100%' : '100%'};
+      transform:rotate(${props =>  props.open === 'true' ? '45deg' : 'none'});
+      margin-bottom:${props =>  props.open === 'true' ? '-15px' : '0'};
     }
 
     &:nth-child(3){
-        width:${props =>  props.open ? '0' : '100%'};
+        width:${props =>  props.open === 'true' ? '0' : '100%'};
     }
   }
 `;

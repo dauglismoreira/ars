@@ -3,14 +3,8 @@ import { Section } from "../../components/grid";
 import { FontRoboto } from '@/app/fonts';
 
 
-interface SkillsProps{
-    label:string;
-    value:string;
-}
-
 interface AboutDetailsProps {
-    aboutDetails: string[];
-    aboutSkills:SkillsProps[];
+    aboutDetails: any;
     unit:any;
   }
 
@@ -21,22 +15,27 @@ export const AboutUnitsDetails: React.FC<AboutDetailsProps> = (props) => {
         <Section className="detailsPadding">
             <ContentContainer  className={FontRoboto.className}>
                 <UnitTitle>
-                    <h3>{props.unit.title} - {props.unit.type} - {props.unit.unit}</h3>
+                    <h3>{props.unit.enterprise.title} - {props.unit.type.name} - {props.unit.unit}</h3>
                 </UnitTitle>
                 <Skills>
-                    {props.aboutSkills.map((skill, index) => (
-                        <Skill key={index}>
-                            <h3>{skill.value}</h3>
-                            <small>{skill.label}</small>
-                        </Skill>
-                    ))}
+                  <Skill>
+                      <h3>{props.unit.suites}</h3>
+                      <small>suítes</small>
+                  </Skill>
+                  <Skill>
+                      <h3>{props.unit.parking_spaces}</h3>
+                      <small>vagas</small>
+                  </Skill>
+                  <Skill>
+                      <h3>{props.unit.area}</h3>
+                      <small>privativos</small>
+                  </Skill>
                 </Skills>
                 <Details>
                     <Title>Diferenciais</Title>
-                    {props.aboutDetails.map((detail, i) => (
-                        <li key={i}>{detail}</li>
+                    {props.aboutDetails.map((detail : any, i: number) => (
+                        <li key={i}>{detail.label}</li>
                     ))}
-                    <li>32 andares</li>
                 </Details>
             </ContentContainer>
         </Section>

@@ -1,38 +1,38 @@
 // import { Baskerville } from '@/app/fonts';
 import { FontRoboto } from '@/app/fonts';
+import getStorageFile from '@/helpers/getStorageFile';
 import styled from 'styled-components';
 
 export interface CardProps {
-    cover?: string;
-    high?: string;
-    name?: string;
-    type?: string;
-    address?: string;
-    city?: string;
-    state?: string;
-    district?: string;
-    suites?: string;
-    garage?: string;
-    area?: string;
-    url?: string;
+    title?:string;
+    slug?:string;
+    status?:string;
+    suites?:string;
+    area?:string;
+    parking_spaces?:string;
+    street?:string;
+    vertical_image?:any;
+    city?:any;
+    location_type?:any;
 }
 
 
 export const EnterpriseCard: React.FC<{ data: CardProps }> = ({ data }) => {
-    const { cover, high, name, type, city, address, state, district, suites, garage, area, url } = data;
+    const { title, slug, status, suites, area, parking_spaces, street, vertical_image, city, location_type } = data;
     
+
     return (
         <Card  className={FontRoboto.className}>
-            <a href={`./../empreendimentos/${url}`}>
+            <a href={`./../empreendimentos/${slug}`}>
             <Cover
-                image={cover || ''}
+                image={getStorageFile(vertical_image?.path) || ''}
             ></Cover>
             <Content>
-                <High>{high}</High>
-                <Name>{name}</Name>
-                <Place><span>{type}</span><p>- {address}, {district}, {city}/{state}</p></Place>
+                <High>{status}</High>
+                <Name>{title}</Name>
+                <Place><p><span>{location_type?.location_name}</span>{street && '-  ' + street}</p></Place>
                 <Skills>
-                    <p>{suites} | {garage}</p>
+                    <p>{suites}{parking_spaces && ' |' + parking_spaces}</p>
                     <p>{area}</p>
                 </Skills>
                 <Link>ver mais</Link>
@@ -45,7 +45,7 @@ export const EnterpriseCard: React.FC<{ data: CardProps }> = ({ data }) => {
 const Cover = styled.div<{image : string}>`
     position: relative;
     height: calc(100% - 250px);
-
+    
     transition: 0.3s ease-in-out;
     background: transparent;
     overflow: hidden;
@@ -57,6 +57,7 @@ const Cover = styled.div<{image : string}>`
         left: 0;
         width: 100%;
         height: 100%;
+        background-color:#cdcdcd;
         background-image: url('${props => props.image}');
         background-size: cover;
         background-position: center center;
@@ -92,6 +93,7 @@ const Place = styled.div`
     span{
         color:var(--color-red-primary);
         font-weight:600;
+        margin-right:6px;
     }
 `;
 

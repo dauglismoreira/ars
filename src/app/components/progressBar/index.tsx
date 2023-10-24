@@ -28,7 +28,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
                 let currentProgress = 0;
                 const interval = setInterval(() => {
                     currentProgress += increment;
-                    setProgressEnd(currentProgress);
+                    setProgressEnd(Math.round(currentProgress));
 
                     if (currentProgress >= progress) {
                         clearInterval(interval);

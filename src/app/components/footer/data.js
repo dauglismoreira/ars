@@ -4,14 +4,14 @@ export const dataFooter = {
     city:'Itapema',
     state:'SC',
     cep:'88220-000',
-    email:'contato@arskammer.com.br',
+    email:process.env.NEXT_PUBLIC_EMAIL,
     contact_phone:[
-      '4733688954',
-      '4733683576',
-      '47999681749',
+      process.env.NEXT_PUBLIC_CONTACT_PHONE_1,
+      process.env.NEXT_PUBLIC_CONTACT_PHONE_2,
+      process.env.NEXT_PUBLIC_CONTACT_PHONE_3,
     ],
     emergency_number:[
-      '48996312425'
+      process.env.NEXT_PUBLIC_COMERCIAL_PHONE
     ],
     policy_text:'Política de Privacidade e Segurança. ©2023 - Todos os direitos reservados',
     policy_link:'#'

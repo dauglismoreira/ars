@@ -29,10 +29,17 @@ import { AboutIntro } from '@/app/sections/AboutIntro';
 export const EnterPage: React.FC<EnterpriseProps> = ({aboutDetails, enterprise, menuItems, aboutButtons}) => {
 
     const [activeButtonLabel, setActiveButtonLabel] = useState('Empreendimento');
+    const [typeChange, setTypeChange] = useState('');
 
     const handleActiveButtonChange = (label: string) => {
       setActiveButtonLabel(label);
     };
+
+    const handleTypeChange = (label: string) => {
+      setTypeChange(label);
+    };
+
+    console.log(enterprise)
 
     return (
       <>
@@ -61,33 +68,41 @@ export const EnterPage: React.FC<EnterpriseProps> = ({aboutDetails, enterprise, 
         <div id="banner"><EnterpriseBanner enterprise={enterprise}/></div>
         <div id="informacoes"><AboutIntro enterprise={enterprise}/></div>
         <div id="galeria"><AboutGallery
-          photos={enterprise.enterprise_gallery}
+          typePhotos={enterprise.types}
+          photos={enterprise.galleries}
+          onTypeChange={handleTypeChange}
           activeButtonLabel={activeButtonLabel}
           onActiveButtonChange={handleActiveButtonChange}
-          aboutButtons={aboutButtons}
         /></div>
         <div id="detalhes"><AboutDetails
           activeButtonLabel={activeButtonLabel}
           onActiveButtonChange={handleActiveButtonChange}
           aboutDetails={aboutDetails}
+          typeDetails={enterprise.types}
+          typeActive={typeChange}
+          details={enterprise.galleries}
         /></div>
         <div id="disponiveis"><EnableUnits/></div>
         <div id="plantas"><AboutPlans
           aboutButtons={aboutButtons}
-          aboutImages={enterprise.aboutImages}
+          photos={enterprise.galleries}
+          onActiveButtonChange={handleActiveButtonChange}
+          typePhotos={enterprise.types}
         /></div>
         <div id="local"><AboutLocal
           enterprise={enterprise}
         /></div>
         <div id="videos"><AboutVideos
-          videos={enterprise.videos}
+          videos={enterprise.video}
         /></div>
         <div id="tour"><AboutTour
-          tour={enterprise.tour}
+          tour={enterprise.virtual_tours}
         /></div>
         <div id="obra"><AboutBuild
           videos={enterprise.videos}
-          progress={enterprise.progress}
+          progress={enterprise.work_progress}
+          start={enterprise.begin_date}
+          end={enterprise.end_date}
         /></div>
         <BottomFixed>
           <Section className="no-desktop" background="var(--color-grey-100)" padding="0">
@@ -100,7 +115,7 @@ export const EnterPage: React.FC<EnterpriseProps> = ({aboutDetails, enterprise, 
 
 const TopFixed = styled.div`
   position:fixed;
-  top:58px;
+  top:56px;
   z-index:99;
   left:0;
   width:100%;

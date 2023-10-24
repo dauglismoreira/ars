@@ -2,21 +2,21 @@ import styled from 'styled-components';
 import { Section } from "../../components/grid";
 import { FontRoboto } from '@/app/fonts';
 import { SectionTitle } from '@/app/components/sectionTitle';
-import {PiClipboardText} from 'react-icons/pi';
 import Image from 'next/image';
+import {PiClipboardText} from 'react-icons/pi';
 
 interface ConditionProps{
-  condition:string;
+  name:string;
   description:string;
-  value:string;
+  value:number;
+  icon:any;
 }
 
 interface AboutValuesProps {
-    aboutValues:ConditionProps[];
-    price:string;
+    aboutValues?:ConditionProps[];
   }
 
-export const AboutValues: React.FC<AboutValuesProps> = ({aboutValues, price}) => {
+export const AboutValues: React.FC<AboutValuesProps> = ({aboutValues}) => {
 
     return (
       <ContainerPayment>
@@ -25,19 +25,29 @@ export const AboutValues: React.FC<AboutValuesProps> = ({aboutValues, price}) =>
           <Payment>
             <ContentContainer  className={FontRoboto.className}>
               <ConditionsContainer>
-                <Price>R$ {price}</Price>
-                  {aboutValues.map((condition, index) => (
+                <Price>R$ {aboutValues && (aboutValues.reduce((accumulator : any, currentOffer : any) => accumulator + currentOffer.value, 0) / 100).toLocaleString('pt-br', {minimumFractionDigits: 2})}</Price>
+                  {aboutValues && aboutValues.map((condition, index) => (
                     <Conditions key={index}>
                       <Desc>
-                        <Icon><PiClipboardText size="1.4rem"/></Icon>
+                        <Icon><div dangerouslySetInnerHTML={{__html: condition.icon.svg}}/></Icon>
                         <Text>
-                          <p>{condition.condition}</p>
+                          <p>{condition.name}</p>
                           <small>{condition.description}</small>
                         </Text>
                       </Desc>
-                      <Value><p>R$ {condition.value}</p></Value>
+                      <Value><p>{(condition.value / 100).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</p></Value>
                     </Conditions>
                   ))}
+                  <Conditions>
+                    <Desc>
+                      <Icon><PiClipboardText size="1.4rem"/></Icon>
+                      <Text>
+                        <p>Total</p>
+                        <small>Valor total</small>
+                      </Text>
+                    </Desc>
+                    <Value><p>R$ {aboutValues && (aboutValues.reduce((accumulator : any, currentOffer : any) => accumulator + currentOffer.value, 0) / 100).toLocaleString('pt-br', {minimumFractionDigits: 2})}</p></Value>
+                  </Conditions>
               </ConditionsContainer>
             </ContentContainer>
             <ContactContainer>
@@ -47,10 +57,9 @@ export const AboutValues: React.FC<AboutValuesProps> = ({aboutValues, price}) =>
                     height={58}
                     alt={'Proposta'}
                   />
-            
                 <p>Fique a vontade para nos enviar um contra proposta.</p>
                 <small>Retornaremos em breve.</small>
-                <Button className="inverter">Faça uma contra proposta</Button>
+                <Button className="inverter"><a href={window.location.href + '/interesse'}>Faça uma contra proposta</a></Button>
                 <Button><a href={window.location.href + '/interesse'}>Tenho interesse nesta unidade</a></Button>
             </ContactContainer>
           </Payment>

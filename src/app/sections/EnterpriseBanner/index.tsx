@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Section } from "../../components/grid";
 import { FontRoboto } from '@/app/fonts';
+import getStorageFile from '@/helpers/getStorageFile';
   
 interface EnterpriseProps {
     enterprise:any;
@@ -11,16 +12,16 @@ export const EnterpriseBanner: React.FC<EnterpriseProps> = ({enterprise}) => {
   return (
       <ContainerBanner>
         <Section className="bannerPadding">
-            <EnterpriseBannerContainer className={FontRoboto.className} background={enterprise.high_image}>
-              <MobileImage background={enterprise.about_image}></MobileImage>
+            <EnterpriseBannerContainer className={FontRoboto.className} background={getStorageFile(enterprise?.horizontal_image?.path)}>
+              <MobileImage background={getStorageFile(enterprise?.vertical_image?.path)}></MobileImage>
               <ContentBanner>
                 <Text>
-                  <h4>{enterprise.title_high}</h4>
-                  <h1>{enterprise.title}</h1>
-                  <span className="no-desktop">{enterprise.type}</span>
-                  <p><span className="no-mobile">{enterprise.type}</span><strong className="no-mobile">-</strong>{enterprise.address}, {enterprise.district} - {enterprise.city}/{enterprise.state}</p>
+                  <h4>{enterprise?.status}</h4>
+                  <h1>{enterprise?.title}</h1>
+                  <span className="no-desktop">{enterprise?.location_type?.location_name}</span>
+                  <p><span className="no-mobile">{enterprise?.location_type?.location_name}</span><strong className="no-mobile">-</strong>{enterprise.street}</p>
                 </Text>
-                <Logo image={enterprise.enterprise_logo}></Logo>
+                {enterprise?.logo_image?.path && <Logo image={getStorageFile(enterprise?.logo_image?.path)}></Logo>}
               </ContentBanner>
               <Shadow></Shadow>
             </EnterpriseBannerContainer>

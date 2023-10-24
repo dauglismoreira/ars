@@ -9,9 +9,10 @@ import useScreenSize from '@/hooks/useScreenSize';
 interface EnterprisePageProps {
     citiesOptions:any;
     situationOptions:any;
+    onURLParametersChange:any;
 }
 
-export const Filters: React.FC<EnterprisePageProps> = ({citiesOptions, situationOptions}) => {
+export const Filters: React.FC<EnterprisePageProps> = ({onURLParametersChange, citiesOptions, situationOptions}) => {
 
     const isLargeScreen = useScreenSize(768);
     const [textFilter, setTextFilter] = useState('')
@@ -22,26 +23,63 @@ export const Filters: React.FC<EnterprisePageProps> = ({citiesOptions, situation
     const [showFilters, setShowFilters] = useState(false)
     const [count, setCount] = useState(0)
 
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         const urlSearchParams = new URLSearchParams(window.location.search);
-        urlSearchParams.set('textFilter', textFilter);
+        if(count > 0){
+        urlSearchParams.set('search', textFilter);
         const newUrl = `${window.location.pathname}?${urlSearchParams.toString()}`;
         window.history.pushState({ path: newUrl }, '', newUrl);
+
+        if (onURLParametersChange) {
+            onURLParametersChange({
+            textFilter,
+            });
+        }
+        }else{
+            setTextFilter(urlSearchParams.get('search') ?? '')
+            setCount(count => count + 1)
+        }
     }, [textFilter])
-
+    /* eslint-disable react-hooks/exhaustive-deps */
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         const urlSearchParams = new URLSearchParams(window.location.search);
-        urlSearchParams.set('cityFilter', cityFilter);
+        if(count > 0){
+        urlSearchParams.set('city', cityFilter);
         const newUrl = `${window.location.pathname}?${urlSearchParams.toString()}`;
         window.history.pushState({ path: newUrl }, '', newUrl);
+
+        if (onURLParametersChange) {
+            onURLParametersChange({
+                cityFilter,
+            });
+        }
+        }else{
+            setCityFilter(urlSearchParams.get('city') ?? '')
+            setCount(count => count + 1)
+        }
     }, [cityFilter])
-
+    /* eslint-disable react-hooks/exhaustive-deps */
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         const urlSearchParams = new URLSearchParams(window.location.search);
-        urlSearchParams.set('situationFilter', situationFilter);
+        if(count > 0){
+        urlSearchParams.set('status', situationFilter);
         const newUrl = `${window.location.pathname}?${urlSearchParams.toString()}`;
         window.history.pushState({ path: newUrl }, '', newUrl);
+
+        if (onURLParametersChange) {
+            onURLParametersChange({
+                situationFilter,
+            });
+        }
+        }else{
+            setSituationFilter(urlSearchParams.get('status') ?? '')
+            setCount(count => count + 1)
+        }
     }, [situationFilter])
+    /* eslint-disable react-hooks/exhaustive-deps */
 
     /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
@@ -73,15 +111,17 @@ export const Filters: React.FC<EnterprisePageProps> = ({citiesOptions, situation
             <>
             <SearchBar onClick={() => setOpen(!open)}>
                 <p>Filtro</p>
-                <Toogle open={open}>
+                <Toogle open={open ? 'true' : 'false'}>
                     <span></span>
                     <span></span>
                     <span></span>
                 </Toogle>
             </SearchBar>
-            <OpenFiltersContainer open={open}>
+            <OpenFiltersContainer open={open ? 'true' : 'false'}>
                 {showFilters ?
                 <EnterpriseFilters
+                    defaultCity={cityFilter}
+                    defaultStatus={situationFilter}
                     citiesOptions={citiesOptions}
                     situationOptions={situationOptions}
                     onCityChange={(selectedValue) => {
@@ -103,6 +143,8 @@ export const Filters: React.FC<EnterprisePageProps> = ({citiesOptions, situation
             :
             <SearchBar>
             <EnterpriseFilters
+                defaultCity={cityFilter}
+                defaultStatus={situationFilter}
                 citiesOptions={citiesOptions}
                 situationOptions={situationOptions}
                 onCityChange={(selectedValue) => {
@@ -154,7 +196,7 @@ const SearchBar = styled.div`
   }
 `;
 
-const Toogle = styled.div<{open: boolean}>`
+const Toogle = styled.div<{open: string}>`
   width:30px;
   height:20px;
   display:flex;
@@ -170,30 +212,30 @@ const Toogle = styled.div<{open: boolean}>`
     transition: 0.3s ease-in-out;
 
     &:nth-child(1){
-        transform:rotate(${props =>  props.open ? '-45deg' : 'none'});
-        margin-bottom:${props =>  props.open ? '-17px' : '0'};
+        transform:rotate(${props =>  props.open === 'true' ? '-45deg' : 'none'});
+        margin-bottom:${props =>  props.open === 'true' ? '-17px' : '0'};
       }
 
     &:nth-child(2){
-      width:${props =>  props.open ? '100%' : '70%'};
-      transform:rotate(${props =>  props.open ? '45deg' : 'none'});
-      margin-bottom:${props =>  props.open ? '-15px' : '0'};
+      width:${props =>  props.open === 'true' ? '100%' : '70%'};
+      transform:rotate(${props =>  props.open === 'true' ? '45deg' : 'none'});
+      margin-bottom:${props =>  props.open === 'true' ? '-15px' : '0'};
     }
 
     &:nth-child(3){
-        width:${props =>  props.open ? '0' : '40%'};
+        width:${props =>  props.open === 'true' ? '0' : '40%'};
     }
   }
 `;
 
-const OpenFiltersContainer = styled.div<{open: boolean}>`
+const OpenFiltersContainer = styled.div<{open: string}>`
     position:fixed;
     z-index:99;
     background-color:var(--color-red-primary);
-    height:${props => props.open ? '220px' : '0'};
+    height:${props => props.open === 'true' ? '220px' : '0'};
     top:108px;
     width:100%;
     left:0;
-    padding:${props => props.open ? '20px 20px 40px' : '0 20px'};
+    padding:${props => props.open === 'true' ? '20px 20px 40px' : '0 20px'};
     transition: 0.3s ease-in-out;
 `;

@@ -33,7 +33,7 @@ export const Footer = () => {
         <>
         <Section background="var(--color-grey-100)" padding={'70px 0 10px'}>
             <ExtraContainer className={FontRoboto.className}>
-                <Row breakpoint={!isLargeScreen.isLargeScreen}>
+                <Row breakpoint={!isLargeScreen.isLargeScreen ? 'true' : 'false'}>
                   <Col flex={5} className="info" padding={'0'}>
                     <Logo />
                     {!isLargeScreen.isLargeScreen && <Label>Sede</Label>}
@@ -43,8 +43,8 @@ export const Footer = () => {
                   <Col flex={6} padding={'0'}>
                       <Label>Contato</Label>
                       <Phones>
-                        {dataFooter.contact_phone.map((phone, index) => (
-                          <li key={index}>{formatPhoneNumber(phone)}</li>
+                        {dataFooter.contact_phone.map((phone :any, index: number) => (
+                          <li key={index}>{formatPhoneNumber((phone))}</li>
                         ))}
                       </Phones>
                   </Col>
@@ -52,7 +52,7 @@ export const Footer = () => {
                   <Col flex={3} padding={'0'}>
                       <Label>Plantão Comercial</Label>
                       <Phones>
-                        {dataFooter.emergency_number.map((phone, index) => (
+                        {dataFooter.emergency_number.map((phone: any, index: number) => (
                           <li key={index}>{formatPhoneNumber(phone)}</li>
                         ))}
                       </Phones>

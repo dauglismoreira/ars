@@ -23,22 +23,30 @@ export interface VideoBuild {
 export interface AboutBuildProps {
   videos:VideoBuild[];
   progress:any;
+  start:string;
+  end:string;
 }
 
-export const AboutBuild: React.FC<AboutBuildProps> = ({videos, progress}) => {
+export const AboutBuild: React.FC<AboutBuildProps> = ({videos, progress, start, end}) => {
 
+    const aboutButtons: any[] = [];
 
-    const aboutButtons=[
-      {
-        label:'Andamento',
-        link:'#'
-      },
-      {
-        label:'Vídeos',
-        link:'#'
-      },
-    ]
-
+    /* eslint-disable react-hooks/exhaustive-deps */
+    useEffect(() => {
+      if(progress.length > 0){
+        aboutButtons.push({
+          label:'Andamento',
+          link:'#'
+        },)
+      }
+      if(videos?.length > 0){
+        aboutButtons.push({
+          label:'Vídeos',
+          link:'#'
+        },)
+      }
+    }, [videos, progress])
+    /* eslint-disable react-hooks/exhaustive-deps */
 
     const [activeButtonLabel, setActiveButtonLabel] = useState('');
 
@@ -83,68 +91,69 @@ export const AboutBuild: React.FC<AboutBuildProps> = ({videos, progress}) => {
 
     return (
       <BuildContainer>
-        <LineDivider></LineDivider>
-        <Section className="buildPadding">
-            <SectionTitle text={'Obra'}/>
-            <p className="no-desktop">Acompanhe a atualizações das obras</p>
-            <Dates>
-              <p><span>Início:</span> Janeiro/2020</p>
-              <p><span>Entrega:</span> Dezembro/2024</p>
-            </Dates>
-            <ButtonsContainer>
-              {aboutButtons.map((button, index) => (
-                <Button
-                    key={index}
-                    active={activeButtonIndex === index}
-                    className={FontRoboto.className}
-                    onClick={() => handleButtonClick(index)}
-                >{button.label}</Button>
-              ))}
-            </ButtonsContainer>
-            {activeButtonIndex === 0 &&
-              <ContainerProgress  className={FontRoboto.className}>
-                <ProgressBar label="Progresso Total" progress={progress.total}/>
-                <ProgressBar label="Fundação" progress={progress.fundation}/>
-                <ProgressBar label="Estrutura" progress={progress.structure}/>
-                <ProgressBar label="Alvenaria" progress={progress.alvenaria}/>
-                <ProgressBar label="Hidráulica e Elétrica" progress={progress.hidraulic}/>
-                <ProgressBar label="Pintura e Acabamento" progress={progress.paint}/>
-              </ContainerProgress>
-            }
-            {activeButtonIndex === 1 &&
-              <ContainerSwiper  className={FontRoboto.className}>
-                <Swiper
-                    slidesPerView={1}
-                    spaceBetween={20}
-                    centeredSlides={true}
-                    loop={true}
-                    navigation={{
-                        prevEl: '.custom-prev-button',
-                        nextEl: '.custom-next-button',
-                    }}
-                    keyboard={{
-                        enabled: true,
-                    }}
-                    modules={[Navigation, Mousewheel, Keyboard]}
-                    className={`videosSwiper`}
-                >
-                    {videos.map((item, index) => (
-                        <SwiperSlide key={index}>
-                          <VideoContainer>
-                            <div dangerouslySetInnerHTML={{__html: item.url}}/>
-                          </VideoContainer> 
-                          <SlideLegend data={videos} index={index} description={item.description}/>
-                        </SwiperSlide>
+        {(start || end || aboutButtons.length > 0) &&
+          <>
+            <LineDivider></LineDivider>
+            <Section className="buildPadding">
+                <SectionTitle text={'Obra'}/>
+                <p className="no-desktop">Acompanhe a atualizações das obras</p>
+                <Dates>
+                  {start && <p><span>Início:</span> {start}</p>}
+                  {end && <p><span>Entrega:</span> {end}</p>}
+                </Dates>
+                <ButtonsContainer>
+                  {aboutButtons.map((button, index) => (
+                    <Button
+                        key={index}
+                        active={activeButtonIndex === index ? 'true' : 'false'}
+                        className={FontRoboto.className}
+                        onClick={() => handleButtonClick(index)}
+                    >{button.label}</Button>
+                  ))}
+                </ButtonsContainer>
+                {(activeButtonIndex === 0 && progress.length > 0) &&
+                  <ContainerProgress  className={FontRoboto.className}>
+                    {progress.map((item:any, index:number) => (
+                      <ProgressBar key={index} label={item.name} progress={item.progress}/>
                     ))}
+                  </ContainerProgress>
+                }
+                {activeButtonIndex === 1 &&
+                  <ContainerSwiper  className={FontRoboto.className}>
+                    <Swiper
+                        slidesPerView={1}
+                        spaceBetween={20}
+                        centeredSlides={true}
+                        loop={true}
+                        navigation={{
+                            prevEl: '.custom-prev-button',
+                            nextEl: '.custom-next-button',
+                        }}
+                        keyboard={{
+                            enabled: true,
+                        }}
+                        modules={[Navigation, Mousewheel, Keyboard]}
+                        className={`videosSwiper`}
+                    >
+                        {videos.map((item, index) => (
+                            <SwiperSlide key={index}>
+                              <VideoContainer>
+                                <div dangerouslySetInnerHTML={{__html: item.url}}/>
+                              </VideoContainer> 
+                              <SlideLegend data={videos} index={index} description={item.description}/>
+                            </SwiperSlide>
+                        ))}
 
-                </Swiper>
-                <ContainerNav>
-                    <CustomNavButton onClick={handlePrevClick} className="custom-prev-button"><SlArrowLeft size="2rem"/></CustomNavButton>
-                    <CustomNavButton onClick={handleNextClick} className="custom-next-button"><SlArrowRight size="2rem"/></CustomNavButton>
-                </ContainerNav>
-              </ContainerSwiper>
-            }
-        </Section>
+                    </Swiper>
+                    <ContainerNav>
+                        <CustomNavButton onClick={handlePrevClick} className="custom-prev-button"><SlArrowLeft size="2rem"/></CustomNavButton>
+                        <CustomNavButton onClick={handleNextClick} className="custom-next-button"><SlArrowRight size="2rem"/></CustomNavButton>
+                    </ContainerNav>
+                  </ContainerSwiper>
+                }
+            </Section>
+          </>
+        }
       </BuildContainer>
     )
 }
@@ -319,8 +328,8 @@ const CustomNavButton = styled.div`
     }
 `;
 
-const Button = styled.div<{active: boolean}>`
-    border:solid 1px ${props => !props.active ? 'var(--color-grey-100)' : 'var(--color-red-primary)'};
+const Button = styled.div<{active: string}>`
+    border:solid 1px ${props => props.active === 'false' ? 'var(--color-grey-100)' : 'var(--color-red-primary)'};
     height:48px;
     width:168px;
     display:flex;
@@ -328,7 +337,7 @@ const Button = styled.div<{active: boolean}>`
     align-items:center;
     font-size:var(--button-size);
     font-weight:500;
-    color: ${props => !props.active ? 'var(--color-grey-100)' : 'var(--color-red-primary)'};
+    color: ${props => props.active === 'false' ? 'var(--color-grey-100)' : 'var(--color-red-primary)'};
     cursor:pointer;
 
     &:hover{

@@ -7,12 +7,12 @@ import { AncorMenu } from '@/app/components/enterpriseAncorMenu';
 import { RWebShare } from "react-web-share";
 
 import { AiOutlineShareAlt } from 'react-icons/ai';
-import { AboutPlans } from '@/app/sections/AboutPlans';
 import { AboutViews } from '@/app/sections/AboutViews';
 import { AboutUnitsDetails } from '@/app/sections/AboutUnitsDetails';
 import { AboutValues } from '@/app/sections/AboutValues';
 import { AboutContact } from '@/app/sections/AboutContact';
 import { AboutUnitGallery } from '@/app/sections/AboutUnitGallery';
+import { AboutUnitsPlans } from '@/app/sections/AboutUnitsPlans';
   
   export interface EnterpriseProps {
     unit:any;
@@ -27,11 +27,11 @@ export const UnitPage: React.FC<EnterpriseProps> = ({unit, menuItems, formInputs
         <TopFixed>
           <Section className="padding-top" background="var(--color-red-primary)" >
             <ExtraContainer>
-              <h5 className={FontRoboto.className}>{unit.title} - {unit.type} - {unit.unit}</h5>
+              <h5 className={FontRoboto.className}>{unit?.enterprise?.title} - {unit?.type?.name} - {unit?.unit}</h5>
               <div>
                 <RWebShare
                   data={{
-                    text: unit.title,
+                    text: unit?.title,
                     url: window.location.href,
                     title: "Ars Kammer",
                   }}
@@ -48,32 +48,34 @@ export const UnitPage: React.FC<EnterpriseProps> = ({unit, menuItems, formInputs
         </TopFixed>
         <div id="galeria">
             <AboutUnitGallery
-                photos={unit.photos}
+                photos={unit?.galleries?.filter((gallery : any) => gallery?.title === 'Galeria de imagens')[0].files}
             />
         </div>
+        {unit?.differentials.length > 0 &&
         <div id="informacoes">
             <AboutUnitsDetails
-                aboutDetails={unit.differences}
-                aboutSkills={unit.skills}
+                aboutDetails={unit?.differentials}
                 unit={unit}
             />
-        </div>
+        </div>}
+        {unit?.view_from_apartment.length > 0 &&
         <div id="vista">
             <AboutViews
-                aboutImages={unit.views}
+                aboutImages={unit?.view_from_apartment}
             />
-        </div>
+        </div>}
+        {unit?.galleries?.filter((gallery : any) => gallery.title === 'Galeria de plantas')[0].files.length > 0 &&
         <div id="planta">
-            <AboutPlans
-                aboutImages={unit.plans}
+            <AboutUnitsPlans
+                photos={unit?.galleries?.filter((gallery : any) => gallery.title === 'Galeria de plantas')[0].files}
             />
-        </div>
+        </div>}
+        {unit?.offers.length > 0 &&
         <div id="valores">
             <AboutValues
-                aboutValues={unit.payment}
-                price={unit.price}
+                aboutValues={unit?.offers}
             />
-        </div>
+        </div>}
         <div id="disponiveis">
             <AboutContact
                 formInputs={formInputs}

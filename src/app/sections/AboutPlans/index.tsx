@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Section } from "../../components/grid";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { SectionTitle } from '@/app/components/sectionTitle';
 import { ContainerButtons } from '@/app/components/containerButtons';
@@ -13,11 +13,14 @@ import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import 'swiper/css';
 import { FontRoboto } from '@/app/fonts';
 import { SlideLegend } from '@/app/components/slideLegend';
+import getStorageFile from '@/helpers/getStorageFile';
 
 
   interface AboutPlansProps{
     aboutButtons?: any;
-    aboutImages: any[];
+    photos:any;
+    typePhotos:any;
+    onActiveButtonChange: (label: string) => void;
   }
 
 
@@ -29,9 +32,9 @@ export const AboutPlans: React.FC<AboutPlansProps> = (props) => {
     const handleActiveButtonChange = (label : string) => {
         setActiveButtonLabel(label);
         setContentClass('fade-out');
-        setTimeout(() => {
-          setContentClass('fade-in');
-        }, 500);
+         setTimeout(() => {
+           setContentClass('fade-in');
+         }, 500);
     };
 
     const swiper = useSwiper();
@@ -48,16 +51,36 @@ export const AboutPlans: React.FC<AboutPlansProps> = (props) => {
         }
     };
 
+    const allFiles: any[] = props.typePhotos.map((type: any) => {
+      const files = type.galleries
+        .filter((gallery: any) => gallery.title === "Galeria de plantas")[0]
+        .files;
+      return { files, title: type.name };
+    });
+
+    const allLinks: any[] = props.typePhotos.map((type: any) => ({
+      link: '#',
+      label: type.name,
+    }));
+
+    /* eslint-disable react-hooks/exhaustive-deps */
+    useEffect(() => {
+      if(props.photos.filter((photo : any) => photo.title === "Plantas: Área de lazer")[0].files.length > 0){
+        allLinks.unshift({ link: '#', label: 'Área de lazer' });
+      }
+    }, [props])
+    /* eslint-disable react-hooks/exhaustive-deps */
+
+
     return (
       <ContainerPlans>
+        {allLinks.length > 0 &&
         <Section className="plansPadding">
             <SectionTitle text={'Plantas'}  mini={true}/>
-            {props.aboutButtons &&
               <ContainerButtons
-              buttons={props.aboutButtons}
+              buttons={allLinks}
               onActiveButtonChange={handleActiveButtonChange}
               />
-            }
               <ContainerSwiper  className={FontRoboto.className}>
                 <Swiper
                     slidesPerView={1}
@@ -74,37 +97,37 @@ export const AboutPlans: React.FC<AboutPlansProps> = (props) => {
                     modules={[Navigation, Mousewheel, Keyboard]}
                     className={`mySwiper ${contentClass}`}
                 >
-                    {props.aboutButtons ? 
-                    props.aboutImages.find(item => item.label === activeButtonLabel)?.photos.map((item: any, index: number) => (
+                    {activeButtonLabel === 'Área de lazer' ?
+                    props.photos.filter((photo : any) => photo.title === "Plantas: Área de lazer")[0].files.map((item : any, index: number) => (
                         <SwiperSlide key={index}>
                             <Fancybox options={{ infinite: false }} delegate="[data-fancybox='gallery']">
-                                <Image
+                                <img
                                     width={900}
                                     height={670}
-                                    quality={100}
+                                    alt={item.alt}
                                     loading="eager" 
                                     data-fancybox="gallery"
-                                    src={item.url} alt={`Imagem ${index}`}/>
-                                <SlideLegend data={props.aboutImages.find(item => item.label === activeButtonLabel)?.photos} index={index} description={item.description}/>
+                                    src={getStorageFile(item.path)}/>
+                                <SlideLegend data={props.photos.filter((photo : any) => photo.title === "Galeria: Área de lazer")[0].files} index={index + 1} description={'Lazer'}/>
                             </Fancybox>
                         </SwiperSlide>
                     ))
-                      :
-                      props.aboutImages.map((item: any, index: number) => (
-                        <SwiperSlide key={index}>
-                            <Fancybox options={{ infinite: false }} delegate="[data-fancybox='gallery']">
-                                <Image
-                                    width={900}
-                                    height={670}
-                                    quality={100}
-                                    loading="eager" 
-                                    data-fancybox="gallery"
-                                    src={item.url} alt={`Imagem ${index}`}/>
-                                <SlideLegend data={props.aboutImages} index={index} description={item.description}/>
-                            </Fancybox>
-                        </SwiperSlide>
-                    ))
-                  }
+                    :
+                      allFiles.filter((type : any) => type?.title === activeButtonLabel)[0]?.files.map((file : any, index : number) => (
+                          <SwiperSlide key={index}>
+                              <Fancybox options={{ infinite: false }} delegate="[data-fancybox='gallery']">
+                                  <img
+                                      width={900}
+                                      height={670}
+                                      alt={file.alt}
+                                      loading="eager" 
+                                      data-fancybox="gallery"
+                                      src={getStorageFile(file.path)}/>
+                                  <SlideLegend data={allFiles.filter((type : any) => type?.title === activeButtonLabel)[0]?.files} index={index + 1} description={activeButtonLabel}/>
+                                </Fancybox>
+                          </SwiperSlide>
+                      ))
+                    }
 
                 </Swiper>
                 <ContainerNav>
@@ -113,6 +136,7 @@ export const AboutPlans: React.FC<AboutPlansProps> = (props) => {
                 </ContainerNav>
             </ContainerSwiper>
         </Section>
+      }
       </ContainerPlans>
     )
 }

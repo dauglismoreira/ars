@@ -32,7 +32,7 @@ export const EmailInput: React.FC<{
         value={value}
         color={color}
         onChange={handleChange}
-        isValid={isValid}
+        active={isValid ? 'true' : 'false'}
         onBlur={handleValidate}
       />
       {!isValid && <ErrorMessage>Insira um e-mail válido.</ErrorMessage>}
@@ -44,10 +44,10 @@ const InputContainer = styled.div`
   position: relative;
 `;
 
-const Input = styled.input<{ isValid: boolean; color: string }>`
+const Input = styled.input<{ active: string; color: string }>`
   background-color: transparent;
   border:none;
-  border-bottom: solid 1px ${(props) => (props.isValid ? props.color : '#ff9e9e')};
+  border-bottom: solid 1px ${(props) => (props.active === 'true' ? props.color : '#ff9e9e')};
   width: 100%;
   height: 35px;
   color: ${props => props.color};

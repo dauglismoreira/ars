@@ -5,12 +5,14 @@ import { FaSearch } from 'react-icons/fa';
 import useScreenSize from '@/hooks/useScreenSize';
 
 interface EnterpriseFiltersProps {
-  citiesOptions: { label: string; value: string }[];
-  situationOptions: { label: string; value: string }[];
+  citiesOptions: any;
+  situationOptions: any;
   onCityChange: (selectedValue: string) => void;
   onSituationChange: (selectedValue: string) => void;
   onSearchChange: (textValue: string) => void;
-  clearFilter: number
+  clearFilter: number;
+  defaultCity:string;
+  defaultStatus?:string;
 }
 
 export const EnterpriseFilters: React.FC<EnterpriseFiltersProps> = ({
@@ -19,7 +21,9 @@ export const EnterpriseFilters: React.FC<EnterpriseFiltersProps> = ({
   onCityChange,
   onSituationChange,
   onSearchChange,
-  clearFilter
+  clearFilter,
+  defaultCity,
+  defaultStatus
 }) => {
 
   const isLargeScreen = useScreenSize(768);  
@@ -27,12 +31,14 @@ export const EnterpriseFilters: React.FC<EnterpriseFiltersProps> = ({
   return (
     <FiltersContainer>
         <div><Select
+            defaultValue={defaultCity}
             options={citiesOptions}
             onChange={onCityChange}
             clearFilter={clearFilter}
             placeholder={isLargeScreen.isLargeScreen ? 'Cidade' : 'Procure por cidade do empreendimento'}
         /></div>
         <div><Select
+            defaultValue={defaultStatus}
             options={situationOptions}
             onChange={onSituationChange}
             clearFilter={clearFilter}

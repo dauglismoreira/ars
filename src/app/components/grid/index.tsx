@@ -45,8 +45,8 @@ interface RowProps {
   children?: ReactNode;
   margin?: string;
   padding?: string;
-  breakpoint?: boolean;
-  reverse?: boolean;
+  breakpoint?: string;
+  reverse?: string;
   className?: string;
   gap?: string;
 }
@@ -60,7 +60,7 @@ const StyledRow = styled.div<RowProps>`
   padding: ${(props) => props.padding || '0'};
   justify-content: space-between;
   gap: ${(props) => props.gap || '0'};
-  ${(props) => props.breakpoint && (props.reverse ? 'flex-direction: column-reverse;' : 'flex-direction: column;')}
+  ${(props) => props.breakpoint === 'true' && (props.reverse ? 'flex-direction: column-reverse;' : 'flex-direction: column;')}
 `;
 
 export const Row: React.FC<RowProps> = ({ children, gap, className, reverse, breakpoint, margin, padding }) => {

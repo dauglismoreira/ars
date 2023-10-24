@@ -7,6 +7,10 @@ import { InputGenerate, LocalFormData } from '@/app/components/formGenerator';
 import { useState } from 'react';
 import { CheckFormAccept } from '@/app/components/formGenerator/components/check';
 import { FontRoboto } from '@/app/fonts';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import { getData } from '@/helpers/getData';
+import getStorageFile from '@/helpers/getStorageFile';
 
 
 interface ContactProps {
@@ -19,19 +23,53 @@ export const ContactPage: React.FC<ContactProps> = ({formInputs ,unit}) => {
   const [formData, setFormData] = useState<LocalFormData>({});
   const [accept, setAccept] = useState(false);
 
-    const handleFormSubmit = () => {
-      console.log(formData);
-  };
+  const handleFormSubmit = () => {
+    const origin = {
+      origin:'pagina_contato',
+      department: process.env.NEXT_PUBLIC_EMAIL,
+      unit_id: unit.id
+  }
+
+  const combinedData = {
+      ...formData,
+      ...origin,
+    };
+  
+    getData('contact-send', combinedData)
+    .then(response => handleShowMessage(response))
+};
+
+const MessageForm = withReactContent(Swal)
+
+const handleShowMessage = (response:any) => {
+    if(response.success){
+        MessageForm.fire({
+            icon: 'success',
+            title: 'Mensagem enviada',
+            text: 'Em breve entraremos em contato',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    }else{
+        MessageForm.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Tivemos um problema, tente novamente mais tarde',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    }
+}
 
     return (
       <FormContainer className={FontRoboto.className}>
         <Section className="formPadding" background="var(--color-grey-100)">
             <InfoContainer>
                 <Logo>
-                    <Cover background={unit.logo}></Cover>
+                    <Cover background={getStorageFile(unit.enterprise.logo_image.path)}></Cover>
                 </Logo>
                 <Title>Tenho interesse</Title>
-                <h2>{unit.title} - {unit.type} - {unit.unit}</h2>
+                <h2>{unit.enterprise.title} - {unit.type.name} - {unit.unit}</h2>
                 <p>Preencha seus dados que em breve um consultor especialista entrará em contato com você</p>
             </InfoContainer>
           <ContainerForm>

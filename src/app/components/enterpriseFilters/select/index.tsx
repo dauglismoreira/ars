@@ -7,9 +7,10 @@ interface SelectProps {
   onChange: (selectedValue: string) => void;
   clearFilter:number;
   placeholder:string;
+  defaultValue?:string;
 }
 
-export const Select: React.FC<SelectProps> = ({ options, placeholder, clearFilter, onChange }) => {
+export const Select: React.FC<SelectProps> = ({ defaultValue, options, placeholder, clearFilter, onChange }) => {
   const [selectedValue, setSelectedValue] = useState('');
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -18,14 +19,17 @@ export const Select: React.FC<SelectProps> = ({ options, placeholder, clearFilte
     onChange(newValue);
   };
 
+
   useEffect(() => {
-    setSelectedValue('')
-  }, [clearFilter, options])
+    if(defaultValue !== '' && defaultValue){
+      setSelectedValue(defaultValue)
+    }
+  },[defaultValue, clearFilter, options])
 
   return (
     <ContainerSelect>
         <StyledSelect value={selectedValue} onChange={handleSelectChange}>
-        <option className={FontRoboto.className}>{placeholder}</option>
+        <option className={FontRoboto.className} value=''>{placeholder}</option>
         {options.map((option, index) => (
             <option className={FontRoboto.className} key={index} value={option.value}>
                 {option.label}

@@ -5,7 +5,10 @@ import { SectionTitle } from '@/app/components/sectionTitle';
 import { InputGenerate, LocalFormData } from '@/app/components/formGenerator';
 import { useState } from 'react';
 import { CheckFormAccept } from '@/app/components/formGenerator/components/check';
-
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import { getData } from '@/helpers/getData';
+import fetchData from '@/helpers/fetchData';
 
 interface AboutContactProps {
     formInputs: any;
@@ -17,8 +20,41 @@ export const AboutContact: React.FC<AboutContactProps> = ({formInputs}) => {
   const [accept, setAccept] = useState(false);
 
     const handleFormSubmit = () => {
-      console.log(formData);
+      const origin = {
+        origin:'pagina_contato',
+        department: process.env.NEXT_PUBLIC_EMAIL,
+    }
+
+    const combinedData = {
+        ...formData,
+        ...origin,
+      };
+    
+      getData('contact-send', combinedData)
+      .then(response => handleShowMessage(response))
   };
+
+  const MessageForm = withReactContent(Swal)
+
+  const handleShowMessage = (response:any) => {
+      if(response.success){
+          MessageForm.fire({
+              icon: 'success',
+              title: 'Mensagem enviada',
+              text: 'Em breve entraremos em contato',
+              showConfirmButton: false,
+              timer: 1500
+          })
+      }else{
+          MessageForm.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Tivemos um problema, tente novamente mais tarde',
+              showConfirmButton: false,
+              timer: 1500
+          })
+      }
+  }
 
     return (
       <FormContainer>

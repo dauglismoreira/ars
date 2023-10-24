@@ -6,9 +6,7 @@ import styled from 'styled-components';
 
 
 interface EnterpriseData {
-    enterprise: {
-        all_units: Array<{ type: string; units: UnitData[] }>;
-    };
+    enterprise: Array<{ name: string; apartments: UnitData[] }>;
     min:number;
     max:number;
     dorms:string[];
@@ -20,13 +18,13 @@ interface EnterpriseData {
 interface UnitData {
   unit:string;
   status:string;
-  area:string;
+  area:number;
   value_metter:string;
-  dorms:string;
-  garages:string;
+  suites:number;
+  parking_spaces:number;
   value:string;
-  condition:string;
-  more:string;
+  offers:any;
+  slug:string;
   action:string;
 }
 
@@ -39,15 +37,17 @@ export const UnitsList: React.FC<EnterpriseData> = ({
     selectedType
 }) => {
 
-
   return (
     <>
       <Section>
         <ExtraContainer className={FontRoboto.className}>
-          {enterprise.all_units?.filter(types => selectedType !== '' ? types.type === selectedType : types.type)
+          {enterprise?.filter(types => selectedType !== '' ? types.name === selectedType : types.name)[0].apartments.length > 0 ?
+          (enterprise?.filter(types => selectedType !== '' ? types.name === selectedType : types.name)
           .map((type, index) => (
             <div key={index}>
-              <TypeRow><TypeTitle>{type.type}</TypeTitle></TypeRow>
+              {type.apartments.length > 0 &&
+              <>
+              <TypeRow><TypeTitle>{type.name}</TypeTitle></TypeRow>
               <LabelsRow>
                   <Label className="unit">Unidade</Label>
                   <Label className="status"></Label>
@@ -60,19 +60,35 @@ export const UnitsList: React.FC<EnterpriseData> = ({
                   <Label className="more"></Label>
                   <Label className="action"></Label>
               </LabelsRow>
-              {type.units.filter(units =>  parseInt(units.area.replace(' m²', '')) > min && parseInt(units.area.replace(' m²', '')) < max)
+              {type.apartments.filter(units =>  units?.area > min && units?.area < max)
               .filter(units => {
                 if (dorms.length === 0) {
                   return true;
                 } else {
-                  return dorms.includes(units.dorms.replace(' suítes', ''));
+                  return dorms.includes(units.suites?.toString());
                 }
               })
               .filter(units => {
                 if (garage.length === 0) {
                   return true;
                 } else {
-                  return garage.includes(units.garages.replace(' vagas', ''));
+                  return garage.includes(units.parking_spaces?.toString());
+                }
+              }).length > 0 ?
+
+              type.apartments.filter(units =>  units?.area > min && units?.area < max)
+              .filter(units => {
+                if (dorms.length === 0) {
+                  return true;
+                } else {
+                  return dorms.includes(units.suites?.toString());
+                }
+              })
+              .filter(units => {
+                if (garage.length === 0) {
+                  return true;
+                } else {
+                  return garage.includes(units.parking_spaces?.toString());
                 }
               })
               .map((unit, i) => (
@@ -82,14 +98,18 @@ export const UnitsList: React.FC<EnterpriseData> = ({
                   <Unit className="status" style={{
                     color: unit.status === 'Disponível' ? '#16B835' : 'var(--color-red-secondary)'
                   }}>{unit.status}</Unit>
-                  <Unit className="area">{unit.area}</Unit>
-                  <Unit className="value-metter">{unit.value_metter}</Unit>
-                  <Unit className="dorms">{unit.dorms}</Unit>
-                  <Unit className="garages">{unit.garages}</Unit>
-                  <Unit className="value"><span>R$</span>{unit.value}</Unit>
-                  <Unit className="condition">{unit.condition}</Unit>
-                  <Unit className="more"><a href={`${window.location.href}/${unit.more}`}>Saber mais</a></Unit>
-                  <Unit className="action"><Button><a href={`${window.location.href}/${unit.more}/interesse`}>Tenho interesse</a></Button></Unit>
+                  <Unit className="area">{unit.area} m²</Unit>
+                  <Unit className="value-metter">{((unit.offers.reduce((accumulator : any, currentOffer : any) => accumulator + currentOffer.value, 0) / 100) / unit.area).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</Unit>
+                  <Unit className="dorms">{unit.suites} suítes</Unit>
+                  <Unit className="garages">{unit.parking_spaces} vagas</Unit>
+                  <Unit className="value"><span>R$</span>{(unit.offers?.reduce((accumulator : any, currentOffer : any) => accumulator + currentOffer.value, 0) / 100).toLocaleString('pt-br', {minimumFractionDigits: 2})}</Unit>
+                  <Unit className="condition">
+                    {unit.offers.map((offer:any, index:number) => (
+                      <p key={index}>{offer?.name} | {offer?.description} de {(offer?.value / 100)?.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</p>
+                    ))}
+                  </Unit>
+                  <Unit className="more"><a href={`${window.location.href}/${unit.slug}`}>Saber mais</a></Unit>
+                  <Unit className="action"><Button><a href={`${window.location.href}/${unit.slug}/interesse`}>Tenho interesse</a></Button></Unit>
                 </UnitRow>
                 <UnitRowMobile>
                   <StatusRow>
@@ -105,31 +125,41 @@ export const UnitsList: React.FC<EnterpriseData> = ({
                     </SkillUnitContainer>
                     <SkillUnitContainer>
                       <Label className="value-metter">Valor por m²</Label>
-                      <Unit className="value-metter">{unit.value_metter}</Unit>
+                      <Unit className="value-metter">{((unit.offers?.reduce((accumulator : any, currentOffer : any) => accumulator + currentOffer.value, 0) / 100) / unit.area).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</Unit>
                     </SkillUnitContainer>
                     <SkillUnitContainer>
                       <Label className="dorms">Dormitórios</Label>
-                      <Unit className="dorms">{unit.dorms}</Unit>
+                      <Unit className="dorms">{unit.suites}</Unit>
                     </SkillUnitContainer>
                     <SkillUnitContainer>
                       <Label className="garages">Garagens</Label>
-                      <Unit className="garages">{unit.garages}</Unit>
+                      <Unit className="garages">{unit.parking_spaces}</Unit>
                     </SkillUnitContainer>
                   </SkillsRow>
                   <PriceRow>
                     <Label className="value">Valor</Label>
-                    <Unit className="price"><span>R$</span>{unit.value}</Unit>
-                    <Unit className="condition">{unit.condition}</Unit>
+                    <Unit className="price"><span>R$</span>{(unit.offers?.reduce((accumulator : any, currentOffer : any) => accumulator + currentOffer.value, 0) / 100).toLocaleString('pt-br', {minimumFractionDigits: 2})}</Unit>
+                    <Unit className="condition">
+                      {unit.offers.map((offer:any, index:number) => (
+                        <p key={index}>{offer?.name} | {offer?.description} de {(offer?.value / 100)?.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</p>
+                      ))}
+                    </Unit>
                   </PriceRow>
                   <ActionsRow>
-                    <Unit className="more"><a href={window.location.href + '/' + unit.more}>Saber mais</a></Unit>
-                    <Unit className="action"><Button><a href={window.location.href + '/' + unit.more + '/interesse'}>Tenho interesse</a></Button></Unit>
+                    <Unit className="more"><a href={window.location.href + '/' + unit.slug}>Saber mais</a></Unit>
+                    <Unit className="action"><Button><a href={window.location.href + '/' + unit.slug + '/interesse'}>Tenho interesse</a></Button></Unit>
                   </ActionsRow>
                 </UnitRowMobile>
                 </div>
-              ))}
+              ))
+            :
+              <p className="noResults">Nenhum resultado para os filtros selecionados.</p>}
+              </>}
             </div>
-          ))}
+          )))
+          :
+          (<p className="noTypeResults">Nenhuma unidade com o tipo selecionado.</p>)
+          }
 
         </ExtraContainer>
       </Section>
@@ -143,6 +173,16 @@ const ExtraContainer = styled.div`
 
   @media(max-width:768px){
     margin:140px auto 0;
+  }
+
+  .noResults{
+    padding:40px 20px;
+    text-align:center;
+  }
+
+  .noTypeResults{
+    padding:40px 20px;
+    text-align:center;
   }
 `;
 
@@ -276,6 +316,9 @@ const UnitRow = styled.div`
   }
   .condition{
     flex:3;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
     @media(max-width:1200px){
       font-size:var(--p-mobile-text-size);
       flex:2;
@@ -314,6 +357,12 @@ const UnitRowMobile = styled.div`
   flex-wrap:wrap;
   max-width:560px;
   margin:auto;
+
+  .condition{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+  }
 
   @media(max-width:1100px){
     .unit{

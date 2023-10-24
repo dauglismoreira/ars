@@ -10,33 +10,30 @@ interface AboutLocalProps {
 
 export const AboutLocal: React.FC<AboutLocalProps> = ({enterprise}) => {
 
+
     return (
       <LocalContainer>
-        <LineDivider></LineDivider>
-        <Section className="localPadding">
-            <SectionTitle text={'Conheça a localização'}/>
-            <Content  className={FontRoboto.className}>
-                <h2>{enterprise.address}, {enterprise.district} - {enterprise.city}/{enterprise.state}</h2>
-                <p>{enterprise.localDescription}</p>
-                <Label className="no-mobile">Proximidades</Label>
-                <ItemsContainer>
-                  {enterprise.localDetails.map((item: string, index: number) => (
-                    <li key={index}>{item}</li>
-                  ))}
-                </ItemsContainer>
-            </Content>
-            <MapContainer>
-              <iframe
-                src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521260322283!2d106.8195613507864!3d-6.194741395493371!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5390917b759%3A0x6b45e67356080477!2sPT%20Kulkul%20Teknologi%20Internasional!5e0!3m2!1sen!2sid!4v1601138221085!5m2!1sen!2sid`}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={false}
-                aria-hidden="false"
-                tabIndex={0}
-              />
-            </MapContainer>
-        </Section>
+        {(enterprise?.street || enterprise?.location_description || enterprise?.nearby?.length > 0) &&
+          <>
+            <LineDivider></LineDivider>
+            <Section className="localPadding">
+                <SectionTitle text={'Conheça a localização'}/>
+                <Content  className={FontRoboto.className}>
+                    <h2>{enterprise?.street}</h2>
+                    <p>{enterprise?.location_description}</p>
+                    {enterprise?.nearby?.length > 0 && <Label className="no-mobile">Proximidades</Label>}
+                    <ItemsContainer>
+                      {enterprise?.nearby?.map((item: any, index: number) => (
+                        <li key={index}>{item.label}</li>
+                      ))}
+                    </ItemsContainer>
+                </Content>
+                <MapContainer>
+                  {enterprise?.map_iframe && <div dangerouslySetInnerHTML={{__html: enterprise?.map_iframe}}/>}
+                </MapContainer>
+            </Section>
+          </>
+        }
       </LocalContainer>
     )
 }
@@ -142,7 +139,16 @@ const MapContainer = styled.div`
     height:556px;
     width:100%;
 
+    & iframe{
+      width:100%!important;
+      height:556px!important;
+    }
+
     @media(max-width:768px){
       height:398px;
+
+      & iframe{
+        height:398px!important;
+      }
     }
 `;

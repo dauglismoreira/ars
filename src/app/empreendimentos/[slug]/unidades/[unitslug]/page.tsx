@@ -1,42 +1,45 @@
-// import { GetServerSidePropsContext } from 'next';
+import fetchData from '@/helpers/fetchData';
 import { unit, meta, menuItems, formInputs } from './data';
 import { UnitPage } from './unitPage';
-// import { findPostBySlug } from './data';
+import getStorageFile from '@/helpers/getStorageFile';
 
- export async function generateMetadata() {
-   return {
-     title: meta.title,
-     description: meta.description,
-     openGraph: {
-       title: meta.title,
-       description: meta.description,
-     },
-   };
- }
+ export async function generateMetadata(slug : any) {
 
-// export async function getServerSideProps(context: GetServerSidePropsContext) {
-//   const slug = context.query.slug || null;
-//   const enterprise = findPostBySlug(slug);
+   const data = await  fetchData(`empreendimentos/${slug.params.slug}/apartamentos/${slug.params.unitslug}`)
 
-//   if (!enterprise) {
-//     return {
-//       notFound: true,
-//     };
-//   }
+     return {
+       title:data?.apartment?.unit,
+       description:data?.apartment?.description,
+         openGraph: {
+           title:data?.apartment?.unit,
+           description:data?.apartment?.description,
+           images: [{
+             url: getStorageFile(data?.apartment?.horizontal_image?.path),
+             width: data?.apartment?.horizontal_image?.width,
+             height: data?.apartment?.horizontal_image?.height,
+           },]
+         },
+     }
+   }
 
-//   return {
-//     props: {
-//       enterprise,
-//     },
-//   };
-// }
-
-export default function UnitPageWrapper() {
+  UnitPageWrapper.getInitialProps = async (context:any) => {
+    const { slug, unitslug } = context.query;
+    const meta = await UnitPageWrapper(`empreendimentos/${slug.params.slug}/apartamentos/${unitslug.params.slug}`);
+    const page = await fetchData(`empreendimentos/${slug.params.slug}/apartamentos/${unitslug.params.slug}`);
   
+    return { 
+      meta, 
+      page 
+    };
+  };
+
+export default async function UnitPageWrapper(slug : any) {
+  
+  const data = await  fetchData(`empreendimentos/${slug.params.slug}/apartamentos/${slug.params.unitslug}`)
 
   return <UnitPage
-      unit={unit[0]}
       menuItems={menuItems}
+      unit={data?.apartment}
       formInputs={formInputs}
     />;
 }

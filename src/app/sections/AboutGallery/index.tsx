@@ -5,7 +5,7 @@ import { Section } from "../../components/grid";
 import Image from 'next/image';
 import { SectionTitle } from '@/app/components/sectionTitle';
 import { ContainerButtons } from '@/app/components/containerButtons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import { Navigation, Mousewheel, Keyboard } from 'swiper/modules';
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
@@ -15,36 +15,36 @@ import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import 'swiper/css';
 import { FontRoboto } from '@/app/fonts';
 import { SlideLegend } from '@/app/components/slideLegend';
+import getStorageFile from '@/helpers/getStorageFile';
   
 interface PhotoImage {
-    label: string;
-    photos: {
-      url: string;
+    title: string;
+    files: {
+      path: string;
       alt: string;
-      description: string;
     }[];
   }
 
   interface AboutGalleryProps {
     activeButtonLabel: string;
     onActiveButtonChange: (label: string) => void;
+    onTypeChange: (label: string) => void;
     photos:PhotoImage[];
-    aboutButtons: any;
+    typePhotos:any;
   }
 
 export const AboutGallery: React.FC<AboutGalleryProps> = (props) => {
-
-
+  
 
   const { activeButtonLabel, onActiveButtonChange } = props;
   const [swiperClass, setSwiperClass] = useState('');
 
   const handleActiveButtonChange = (label : string) => {
-    setSwiperClass('fade-out');
-    setTimeout(() => {
-      onActiveButtonChange(label);
-      setSwiperClass('fade-in');
-    }, 500);
+     setSwiperClass('fade-out');
+     setTimeout(() => {
+     onActiveButtonChange(label);
+       setSwiperClass('fade-in');
+     }, 500);
   };
 
     const swiper = useSwiper();
@@ -62,12 +62,54 @@ export const AboutGallery: React.FC<AboutGalleryProps> = (props) => {
   };
 
 
+  const allFiles: any[] = [];
+  props.typePhotos.forEach((type:any) => {
+    type.galleries
+      .filter((gallery:any) => gallery.title === "Galeria de imagens")[0]
+      .files.forEach((file:any) => {
+        allFiles.push({file: file, title: type.name});
+      });
+  });
+
+  const handleSlideChange = (swiper:any) => {
+    props.onTypeChange(allFiles[swiper.realIndex].title);
+  };
+
+  const [aboutButtons, setAboutButtons] = useState<any[]>([]);
+
+  /* eslint-disable react-hooks/exhaustive-deps */
+  useEffect(() => {
+    const updatedAboutButtons: any[] = [];
+
+    if(props.photos.filter(photo => photo.title === "Galeria: Empreendiemento")[0].files.length > 0){
+      updatedAboutButtons.push({
+        label:'Empreendimento',
+        link:'#'
+      },)
+    }
+    if(props.photos.filter(photo => photo.title === "Galeria: Área de lazer")[0].files.length > 0){
+      updatedAboutButtons.push({
+        label:'Lazer',
+        link:'#'
+      },)
+    }
+    if(allFiles.length > 0){
+      updatedAboutButtons.push({
+        label:'Apartamento',
+        link:'#'
+      },)
+    }
+    setAboutButtons(updatedAboutButtons);
+  }, [props])
+  /* eslint-disable react-hooks/exhaustive-deps */
+  
     return (
       <ContainerGallery>
+        {aboutButtons.length > 0 &&
         <Section className="galleryPadding">
               <SectionTitle text={'Conheça'}/>
               <ContainerButtons
-                buttons={props.aboutButtons}
+                buttons={aboutButtons}
                 onActiveButtonChange={handleActiveButtonChange}
               />
               <ContainerSwiper  className={FontRoboto.className}>
@@ -75,6 +117,7 @@ export const AboutGallery: React.FC<AboutGalleryProps> = (props) => {
                     slidesPerView={1}
                     spaceBetween={20}
                     centeredSlides={true}
+                    onSlideChange={handleSlideChange}
                     loop={true}
                     navigation={{
                         prevEl: '.custom-prev-button',
@@ -100,26 +143,63 @@ export const AboutGallery: React.FC<AboutGalleryProps> = (props) => {
                     modules={[Navigation, Mousewheel, Keyboard]}
                     className={`mySwiper ${swiperClass}`}
                 >
-                    {props.photos.find(item => item.label === activeButtonLabel)?.photos.map((item, index) => (
+                    {activeButtonLabel === 'Empreendimento' &&
+                    props.photos.filter(photo => photo.title === "Galeria: Empreendiemento")[0].files.map((item, index) => (
                         <SwiperSlide key={index}>
                             <Fancybox options={{ infinite: false }} delegate="[data-fancybox='gallery']">
-                                <Image
+                              {/* eslint-disable */}
+                                <img
                                     width={900}
                                     height={670}
-                                    quality={100}
+                                    alt={item.alt}
                                     loading="eager" 
                                     data-fancybox="gallery"
-                                    src={item.url} alt={`Imagem ${index}`}/>
-                                <SlideLegend data={props.photos.find(item => item.label === activeButtonLabel)?.photos} index={index} description={item.description}/>                            </Fancybox>
+                                    src={getStorageFile(item.path)}/>
+                                {/* eslint-disable */}
+                                <SlideLegend data={props.photos.filter(photo => photo.title === "Galeria: Empreendiemento")[0].files} index={index + 1} description={'Empreendimento'}/>                            </Fancybox>
                         </SwiperSlide>
                     ))}
+                    {activeButtonLabel === 'Lazer' &&
+                    props.photos.filter(photo => photo.title === "Galeria: Área de lazer")[0].files.map((item, index) => (
+                        <SwiperSlide key={index}>
+                            <Fancybox options={{ infinite: false }} delegate="[data-fancybox='gallery']">
+                                {/* eslint-disable */}
+                                <img
+                                    width={900}
+                                    height={670}
+                                    alt={item.alt}
+                                    loading="eager" 
+                                    data-fancybox="gallery"
+                                    src={getStorageFile(item.path)}/>
+                                    {/* eslint-disable */}
+                                <SlideLegend data={props.photos.filter(photo => photo.title === "Galeria: Área de lazer")[0].files} index={index + 1} description={'Lazer'}/>                            </Fancybox>
+                        </SwiperSlide>
+                    ))}
+                    {activeButtonLabel === 'Apartamento' &&
+                    allFiles.map((file : any, index : number) => (
+                        <SwiperSlide key={index}>
+                            <Fancybox options={{ infinite: false }} delegate="[data-fancybox='gallery']">
+                                {/* eslint-disable */}
+                                <img
+                                    width={900}
+                                    height={670}
+                                    alt={file.file.alt}
+                                    loading="eager" 
+                                    data-fancybox="gallery"
+                                    src={getStorageFile(file.file.path)}/>
+                                    {/* eslint-disable */}
+                                <SlideLegend data={allFiles} index={index + 1} description={file.title}/>
+                              </Fancybox>
+                        </SwiperSlide>
+                    ))
+                    }
                     <ContainerNav>
                         <CustomNavButton onClick={handlePrevClick} className="custom-prev-button"><SlArrowLeft size="2rem"/></CustomNavButton>
                         <CustomNavButton onClick={handleNextClick} className="custom-next-button"><SlArrowRight size="2rem"/></CustomNavButton>
                     </ContainerNav>
                 </Swiper>
             </ContainerSwiper>
-        </Section>
+        </Section>}
       </ContainerGallery>
     )
 }

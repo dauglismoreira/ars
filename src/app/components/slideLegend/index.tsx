@@ -12,7 +12,7 @@ export const SlideLegend: React.FC<SlideLegendProps> = ({data, description, inde
     return (
         <SlideFooter className={FontRoboto.className}>
             <Subtitle>{description}</Subtitle>
-            <Total>{index + 1}/{data.length}</Total>
+            <Total>{index}/{data.length}</Total>
         </SlideFooter>
     )
 }

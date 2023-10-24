@@ -1,13 +1,9 @@
 import styled from 'styled-components';
 import { Col, Row, Section } from "../../components/grid";
+import getStorageFile from '@/helpers/getStorageFile';
   
   interface AboutIntroProps {
     enterprise:any;
-  }
-
-  interface Skill {
-    value: string;
-    label: string;
   }
 
 export const AboutIntro: React.FC<AboutIntroProps> = ({enterprise}) => {
@@ -19,21 +15,27 @@ export const AboutIntro: React.FC<AboutIntroProps> = ({enterprise}) => {
               <Row>
                 <Col flex={9}>
                   <Skills>
-                    {enterprise.skills.map((skill: Skill, index: number) => (
-                        <Skill key={index}>
-                            <h3>{skill.value}</h3>
-                            <small>{skill.label}</small>
-                        </Skill>
-                    ))}
+                    <Skill>
+                        <h3>{enterprise.suites?.split(' ')[0]}</h3>
+                        <small>{enterprise.suites?.split(' ')[1]}</small>
+                    </Skill>
+                    <Skill>
+                        <h3>{enterprise.parking_spaces?.split(' ')[0]}</h3>
+                        <small>{enterprise.parking_spaces?.split(' ')[1]}</small>
+                    </Skill>
+                    <Skill>
+                        <h3>{enterprise.area}</h3>
+                        {enterprise.area && <small>privativos</small>}
+                    </Skill>
                   </Skills>
                   <LineDivider></LineDivider>
                   <Content>
-                    <h3>{enterprise.slogan}</h3>
-                    <p>{enterprise.resum}</p>
+                    <h3>{enterprise.subtitle}</h3>
+                    <p>{enterprise.description}</p>
                   </Content>
                 </Col>
                 <Col flex={4} className="no-mobile">
-                  <AboutImage image={enterprise.about_image}></AboutImage>
+                  {enterprise?.vertical_image?.path && <AboutImage image={getStorageFile(enterprise?.vertical_image?.path)}></AboutImage>}
                 </Col>
               </Row>
             </AboutSectionContainer>

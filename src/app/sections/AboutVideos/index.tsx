@@ -56,39 +56,15 @@ export const AboutVideos: React.FC<AboutVideosProps> = ({videos}) => {
 
     return (
       <VideosContainer>
+        {videos &&
         <Section className="videosPadding">
-            <SectionTitle text={'Vídeos'}/>
+            <SectionTitle text={'Vídeo'}/>
               <ContainerSwiper  className={FontRoboto.className}>
-                <Swiper
-                    slidesPerView={1}
-                    spaceBetween={20}
-                    centeredSlides={true}
-                    loop={true}
-                    navigation={{
-                        prevEl: '.custom-prev-button',
-                        nextEl: '.custom-next-button',
-                    }}
-                    keyboard={{
-                        enabled: true,
-                    }}
-                    modules={[Navigation, Mousewheel, Keyboard]}
-                    className={`videosSwiper`}
-                >
-                    {videos.map((item, index) => (
-                        <SwiperSlide key={index}>
-                          <VideoContainer>
-                            <div dangerouslySetInnerHTML={{__html: item.url}}/>
-                          </VideoContainer>  
-                          <SlideLegend data={videos} index={index} description={item.description}/>
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-                <ContainerNav>
-                    <CustomNavButton onClick={handlePrevClick} className="custom-prev-button"><SlArrowLeft size="2rem"/></CustomNavButton>
-                    <CustomNavButton onClick={handleNextClick} className="custom-next-button"><SlArrowRight size="2rem"/></CustomNavButton>
-                </ContainerNav>
+                    <VideoContainer>
+                      <div dangerouslySetInnerHTML={{__html: videos}}/>
+                    </VideoContainer>  
             </ContainerSwiper>
-        </Section>
+        </Section>}
       </VideosContainer>
     )
 }
@@ -120,13 +96,13 @@ const VideoContainer = styled.div`
 `;
 
 const ContainerSwiper = styled.div`
-    max-width:1020px;
+    max-width:980px;
     margin:60px auto 30px;
     position:relative;
     padding:0 20px;
 
     .videosSwiper{
-        width:calc(100% - 40px);
+        width:100%;
     }
 
     @media(max-width:768px){

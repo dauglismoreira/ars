@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Section } from "../../components/grid";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FontRoboto } from '@/app/fonts';
 
 interface AboutDetailsItem {
@@ -12,11 +12,12 @@ interface AboutDetailsProps {
     activeButtonLabel: string;
     onActiveButtonChange: (label: string) => void;
     aboutDetails: AboutDetailsItem[];
+    typeDetails:any;
+    details:any;
+    typeActive:string;
   }
 
 export const AboutDetails: React.FC<AboutDetailsProps> = (props) => {
-
-
 
     const { activeButtonLabel, onActiveButtonChange } = props;
     const [contentClass, setContentClass] = useState('');
@@ -30,28 +31,66 @@ export const AboutDetails: React.FC<AboutDetailsProps> = (props) => {
         }, 500);
     };
 
+    const [aboutButtons, setAboutButtons] = useState<any[]>([]);
+    
+    /* eslint-disable react-hooks/exhaustive-deps */
+    useEffect(() => {
+        const updatedAboutButtons: any[] = [];
+
+      if(props.details.filter((detail:any) => detail.title === "Galeria: Empreendiemento")[0].differentials.length > 0){
+        updatedAboutButtons.push({
+          label:'Empreendimento',
+          link:'#'
+        },)
+      }
+      if(props.details.filter((detail:any) => detail.title === "Galeria: Área de lazer")[0].differentials.length > 0){
+        updatedAboutButtons.push({
+          label:'Lazer',
+          link:'#'
+        },)
+      }
+      if(props.typeDetails.filter((detail:any) => detail.name === props.typeActive)[0]?.galleries.filter((det:any) => det.title === "Galeria de imagens")[0].differentials.length > 0){
+        updatedAboutButtons.push({
+          label:'Apartamento',
+          link:'#'
+        },)
+      }
+      setAboutButtons(updatedAboutButtons);
+    }, [props])
+    /* eslint-disable react-hooks/exhaustive-deps */
+
+
     return (
       <>
+      {aboutButtons.length > 0 &&
         <Section padding="0 0 75px">
             <ContentContainer  className={FontRoboto.className}>
                 <Menu>
-                    {props.aboutDetails.map((item, index) => (
+                    {aboutButtons.map((item, index) => (
                         <Item
                             onClick={() => handleActiveButtonChange(item.label)}
                             key={index}
-                            active={item.label === activeButtonLabel}
+                            active={item.label === activeButtonLabel ? 'true' : 'false'}
                         ><p>{item.label}</p></Item>
                     ))}
                 </Menu>
                 <Details className={contentClass}>
                     <Title>Diferenciais</Title>
-                    {props.aboutDetails.find(item => item.label === activeButtonLabel)?.content.map((detail, i) => (
-                        <li key={i}>{detail}</li>
+                    {activeButtonLabel === 'Empreendimento' &&
+                    props.details.filter((detail:any) => detail.title === "Galeria: Empreendiemento")[0].differentials.map((item:any, index:number) => (
+                        <li key={index}>{item.label}</li>
                     ))}
-                    <li>32 andares</li>
+                    {activeButtonLabel === 'Lazer' &&
+                    props.details.filter((detail:any) => detail.title === "Galeria: Área de lazer")[0].differentials.map((item:any, index:number) => (
+                        <li key={index}>{item.label}</li>
+                    ))}
+                    {activeButtonLabel === 'Apartamento' &&
+                    props.typeDetails.filter((detail:any) => detail.name === props.typeActive)[0].galleries.filter((det:any) => det.title === "Galeria de imagens")[0].differentials.map((item:any, index:number) => (
+                        <li key={index}>{item.label}</li>
+                    ))}
                 </Details>
             </ContentContainer>
-        </Section>
+        </Section>}
       </>
     )
 }
@@ -78,18 +117,18 @@ const Menu = styled.div`
     }
 `;
 
-const Item = styled.div<{active: boolean}>`
+const Item = styled.div<{active: string}>`
     display:flex;
     p{
         cursor:pointer;
         position:relative;
-        color:${props => props.active ? 'var(--color-red-primary)' : 'var(--color-grey-100)'};
+        color:${props => props.active === 'true' ? 'var(--color-red-primary)' : 'var(--color-grey-100)'};
         
         &::after{
             content:'';
             width:100%;
             height:1px;
-            background-color:${props => props.active ? 'var(--color-red-primary)' : 'var(--color-grey-100)'};
+            background-color:${props => props.active === 'true' ? 'var(--color-red-primary)' : 'var(--color-grey-100)'};
             position:absolute;
             bottom:-5px;
             left:0;

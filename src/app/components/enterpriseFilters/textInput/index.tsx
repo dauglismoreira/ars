@@ -60,7 +60,7 @@ export const TextInput: React.FC<InputProps> = ({ clearFilter, icon, onChange, p
         onChange={handleInputChange}
         value={inputValue}
       />
-      <IconContainer active={isFocused}>
+      <IconContainer active={isFocused ? 'true' : 'false'}>
         {icon}
       </IconContainer>
     </InputContainer>
@@ -97,7 +97,7 @@ const StyledInput = styled.input`
 }
 `;
 
-const IconContainer = styled.div<{ active: boolean }>`
+const IconContainer = styled.div<{ active: string }>`
     margin-right: 0px;
     transition: opacity 0.3s ease-in-out;
 

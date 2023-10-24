@@ -10,11 +10,11 @@ import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import { FontRoboto } from '@/app/fonts';
 import 'swiper/css';
 import useScreenSize from '@/hooks/useScreenSize';
+import getStorageFile from '@/helpers/getStorageFile';
 
 interface PhotoImage {
-      url: string;
+      path: string;
       alt: string;
-      description: string;
   }
 
   interface AboutGalleryProps {
@@ -51,12 +51,12 @@ export const AboutUnitGallery: React.FC<AboutGalleryProps> = ({photos}) => {
                   quality={100}
                   loading="eager" 
                   data-fancybox="gallery"
-                  src={photos[0].url} alt={`photos[0].alt`}/>
+                  src={photos ? getStorageFile(photos[0]?.path) : ''} alt={photos && photos[0]?.alt}/>
                 </Fancybox>
                 <UserViews><p>2 pessoas interessadas nesse apartamento</p></UserViews>
             </ColLeft>
             <ColRight>
-              {photos.slice(1,5).map((item, index) => (
+              {photos?.slice(1,5)?.map((item, index) => (
                 <div className="containerImage" key={index}>
                   <Fancybox options={{ infinite: false }} delegate="[data-fancybox='gallery']">
                       <Image
@@ -65,7 +65,7 @@ export const AboutUnitGallery: React.FC<AboutGalleryProps> = ({photos}) => {
                           quality={100}
                           loading="eager" 
                           data-fancybox="gallery"
-                          src={item.url} alt={`Imagem ${index}`}/>
+                          src={getStorageFile(item?.path)} alt={item?.alt}/>
                     </Fancybox>
                 </div>
               ))}
@@ -110,7 +110,7 @@ export const AboutUnitGallery: React.FC<AboutGalleryProps> = ({photos}) => {
               modules={[Navigation, Mousewheel, Keyboard]}
               className={`unitGallery`}
           >
-              {photos.map((item, index) => (
+              {photos?.map((item, index) => (
                   <SwiperSlide key={index}>
                       <Fancybox options={{ infinite: false }} delegate="[data-fancybox='gallery']">
                           <Image
@@ -119,7 +119,7 @@ export const AboutUnitGallery: React.FC<AboutGalleryProps> = ({photos}) => {
                               quality={100}
                               loading="eager" 
                               data-fancybox="gallery"
-                              src={item.url} alt={`Imagem ${index}`}/>
+                              src={getStorageFile(item?.path)} alt={item?.alt}/>
                           </Fancybox>
                   </SwiperSlide>
               ))}

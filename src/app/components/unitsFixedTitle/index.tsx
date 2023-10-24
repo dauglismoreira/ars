@@ -3,31 +3,66 @@
 import styled from 'styled-components';
 import { Section } from '../grid';
 import { BiShareAlt } from 'react-icons/bi';
+import getStorageFile from '@/helpers/getStorageFile';
 
 
 interface UnitsFixedTitleProps {
-    unitsResum: any;
+    data:any;
+    cub?:any;
 }
 
 export const UnitsFixedTitle: React.FC<UnitsFixedTitleProps> = ({
-    unitsResum
+    data, cub
 }) => {
+
+
+  const countStatus = data?.types?.reduce(
+    (accumulator : any, currentType : any) => {
+      currentType.apartments.forEach((apartment:any) => {
+        if (apartment.status === 'Disponível') {
+          accumulator.disponivelCount++;
+        } else if (apartment.status !== 'Disponível') {
+          accumulator.indisponivelCount++;
+        }
+      });
+      return accumulator;
+    },
+    { disponivelCount: 0, indisponivelCount: 0 }
+  );
+
+  const meses = [
+    'Janeiro',
+    'Fevereiro',
+    'Março',
+    'Abril',
+    'Maio',
+    'Junho',
+    'Julho',
+    'Agosto',
+    'Setembro',
+    'Outubro',
+    'Novembro',
+    'Dezembro',
+  ];
+  
+  const dataAtual = new Date();
+  const mesAtual = meses[dataAtual.getMonth()];
 
   return (
     <ContainerFixedTitle>
         <Section className="fixedTitle" background="var(--color-grey-100)">
             <ExtraContainer>
             <Logo>
-                <Cover background={unitsResum.logo}></Cover>
+                <Cover background={getStorageFile(data?.logo_image?.path)}></Cover>
             </Logo>
             <MiddleContainer>
                 <Dates>
-                    <Now>{unitsResum.mes_atual}<span> • CUB-SC R$ {unitsResum.cub_value}</span></Now>
-                    <Delivery>Previsão de entrega: <span>{unitsResum.delivery}</span></Delivery>
+                    <Now>{mesAtual}<span>{cub && '• CUB-SC R$' +  (cub / 100).toLocaleString('pt-br', {minimumFractionDigits: 2})}</span></Now>
+                    <Delivery>Previsão de entrega: <span>{data.end_date}</span></Delivery>
                 </Dates>
                 <TotalUnits>
-                    <p><span className="active"></span>{unitsResum.units_available} unidades disponíveis</p>
-                    <p><span className="inactive"></span>{unitsResum.units_unavailable} unidades indisponíveis</p>
+                    <p><span className="active"></span>{countStatus.disponivelCount} unidades disponíveis</p>
+                    <p><span className="inactive"></span>{countStatus.indisponivelCount} unidades indisponíveis</p>
                 </TotalUnits>
             </MiddleContainer>
             <Share>
