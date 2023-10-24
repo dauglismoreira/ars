@@ -8,15 +8,15 @@ export async function generateMetadata(slug : any) {
   const data = await  fetchData(`empreendimentos/${slug.params.slug}/apartamentos`)
 
     return {
-      title:data?.enterprise?.title,
-      description:data?.enterprise?.seo_description,
+      title:data?.enterprise[0]?.title,
+      description:data?.enterprise[0]?.seo_description,
         openGraph: {
-          title:data?.enterprise?.title,
-          description:data?.enterprise?.seo_description,
+          title:data?.enterprise[0]?.title,
+          description:data?.enterprise[0]?.seo_description,
           images: [{
-            url: getStorageFile(data?.enterprise?.horizontal_image?.path),
-            width: data?.enterprise?.horizontal_image?.width,
-            height: data?.enterprise?.horizontal_image?.height,
+            url: getStorageFile(data?.enterprise[0]?.horizontal_image?.path),
+            width: data?.enterprise[0]?.horizontal_image?.width,
+            height: data?.enterprise[0]?.horizontal_image?.height,
           },]
         },
     }
@@ -36,6 +36,7 @@ export default async function UnitsPageWrapper(slug : any) {
 
   return (
     <>
+    {/* <Dump obj={data?.enterprise[0]?.title}/> */}
       <UnitsListPage
         types={data.enterprise[0]}
         cub={data.cub}
